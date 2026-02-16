@@ -3,6 +3,18 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide", page_title="❤️ Confession", page_icon="❤️")
 
+# ===== MUSIC (Beautiful in White) =====
+components.html(
+"""
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/5qAPxFLFZzI?autoplay=1&loop=1&playlist=5qAPxFLFZzI"
+frameborder="0"
+allow="autoplay">
+</iframe>
+""",
+height=0,
+)
+
 html = """
 <!DOCTYPE html>
 <html>
@@ -390,9 +402,7 @@ body {
 </div>
 
 <!-- Background Music -->
-<audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+
 
 <script>
 
