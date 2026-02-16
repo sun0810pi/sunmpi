@@ -3,103 +3,96 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# ---------- LANDING STYLE ----------
+# ---------- BACKGROUND ----------
 st.markdown("""
 <style>
-
-/* nền gradient */
 body {
-    background: linear-gradient(135deg,#ffe6f2,#fff0f6);
+    background: radial-gradient(circle at top,
+                #fff0f6,
+                #ffe6f2,
+                #ffd6ec);
 }
 
-/* căn giữa toàn bộ */
-.center-wrap {
-    height: 80vh;
+/* center layout */
+.wrap{
+    height:85vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
 }
 
-/* title cute */
-.title {
-    font-size:56px;
+/* title */
+.title{
+    font-size:58px;
     font-weight:800;
     background: linear-gradient(90deg,#ff4da6,#ff99cc);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
-/* trái tim đập */
-.heart {
-    width:60px;
-    height:60px;
-    background:#ff4da6;
-    position:relative;
-    transform: rotate(-45deg);
-    animation: beat 1s infinite;
-    margin-bottom:30px;
+/* heart button */
+.heartbtn{
+    font-size:70px;
+    cursor:pointer;
+    animation:beat 1s infinite;
+    user-select:none;
 }
-
-.heart:before,
-.heart:after{
-    content:"";
-    width:60px;
-    height:60px;
-    background:#ff4da6;
-    border-radius:50%;
-    position:absolute;
-}
-
-.heart:before{ top:-30px; left:0;}
-.heart:after{ left:30px; top:0;}
 
 @keyframes beat{
-    0%{transform:scale(1) rotate(-45deg);}
-    50%{transform:scale(1.25) rotate(-45deg);}
-    100%{transform:scale(1) rotate(-45deg);}
+    0%{transform:scale(1)}
+    50%{transform:scale(1.25)}
+    100%{transform:scale(1)}
 }
 
-/* nút đẹp */
-.center-btn button{
-    font-size:26px;
-    padding:18px 40px;
-    border-radius:18px;
-    border:none;
-    color:white;
+/* sub text */
+.sub{
+    font-size:20px;
+    margin-top:12px;
+    margin-bottom:30px;
+    color:#444;
+}
+
+/* streamlit button style */
+div.stButton > button {
+    font-size:22px;
+    padding:14px 36px;
+    border-radius:16px;
     background: linear-gradient(135deg,#ff7eb3,#ff4da6);
-    box-shadow:0 8px 20px rgba(0,0,0,0.2);
-    transition:0.3s;
+    color:white;
+    border:none;
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
 }
 
-.center-btn button:hover{
-    transform:scale(1.1);
+div.stButton > button:hover {
+    transform:scale(1.08);
 }
-
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- LANDING ----------
-st.markdown("""
-<div class="center-wrap">
-    <div class="title">Anh muốn nói với em là...</div>
-    <div class="heart"></div>
-</div>
-""", unsafe_allow_html=True)
 
-st.markdown('<div class="center-btn">', unsafe_allow_html=True)
-clicked = st.button("Bấm vào đây 💗")
+# ---------- HEADER ----------
+st.markdown('<div class="wrap">', unsafe_allow_html=True)
+st.markdown('<div class="title">Anh muốn nói với em là...</div>', unsafe_allow_html=True)
+
+# Heart clickable (JS side trigger)
+heart_clicked = st.button("💗", key="heart")
+
+st.markdown('<div class="sub">Bấm vào trái tim hoặc nút dưới đây</div>', unsafe_allow_html=True)
+
+btn_clicked = st.button("Bấm vào đây")
+
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ---------- POPUP FLOOD ----------
-if clicked:
+# ---------- POPUP ----------
+if heart_clicked or btn_clicked:
 
     html = """
     <html>
     <body style="margin:0; overflow:hidden;
-                 background:linear-gradient(135deg,#ffe6f2,#fff0f6);">
+                 background:radial-gradient(circle,#fff0f6,#ffd6ec);">
 
     <script>
 
@@ -109,8 +102,7 @@ if clicked:
         "Đừng buồn nữa nhé",
         "Quay lại đi mà 🥺",
         "Anh luôn ở đây",
-        "Smile đi ✨",
-        "You mean a lot to me"
+        "Smile đi ✨"
     ];
 
     function spawn(){
@@ -128,8 +120,8 @@ if clicked:
         d.style.fontSize="18px";
         d.style.fontWeight="600";
         d.style.borderRadius="14px";
-        d.style.background="rgba(255,192,203,0.9)";
-        d.style.boxShadow="0 8px 20px rgba(0,0,0,0.2)";
+        d.style.background="rgba(255,192,203,0.92)";
+        d.style.boxShadow="0 10px 24px rgba(0,0,0,0.2)";
         d.style.animation="pop .3s ease";
 
         document.body.appendChild(d);
@@ -147,7 +139,7 @@ if clicked:
     let flood=setInterval(()=>{
         spawn();
         c++;
-        if(c>150){clearInterval(flood);}
+        if(c>160){clearInterval(flood);}
     },35);
 
     </script>
