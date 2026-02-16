@@ -1,181 +1,187 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="centered")
 
-html = """
-<!DOCTYPE html>
-<html>
-<head>
+# ========= STATE =========
+if "show_popup" not in st.session_state:
+    st.session_state.show_popup = False
 
+
+# ========= CLICK HANDLER =========
+def open_popup():
+    st.session_state.show_popup = True
+
+
+# ========= CSS / UI =========
+st.markdown("""
 <style>
 
-body{
-    margin:0;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at top,#111,#000);
-    font-family: 'Segoe UI', sans-serif;
+/* ---------- BACKGROUND ---------- */
+
+body {
+    background: linear-gradient(270deg,#000000,#1a001a,#000000);
+    background-size: 400% 400%;
+    animation: bgmove 15s ease infinite;
 }
 
-/* CENTER WRAP */
-.wrap{
+@keyframes bgmove {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+
+/* ---------- FLOATING HEARTS ---------- */
+
+.hearts span {
+    position: fixed;
+    bottom: -50px;
+    font-size: 18px;
+    animation: floatUp linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity:0;
+    }
+    20% {opacity:0.7;}
+    100% {
+        transform: translateY(-110vh) scale(1.4);
+        opacity:0;
+    }
+}
+
+/* ---------- MAIN HEART ---------- */
+
+.heart {
+    font-size:120px;
+    text-align:center;
+    cursor:pointer;
+    animation: beat 1.2s infinite ease-in-out;
+    filter: drop-shadow(0 0 20px rgba(255,0,90,0.9));
+    transition: transform .2s ease;
+}
+
+.heart:hover {
+    transform: scale(1.2);
+}
+
+@keyframes beat {
+    0% {transform:scale(1);}
+    25% {transform:scale(1.25);}
+    40% {transform:scale(1);}
+    60% {transform:scale(1.18);}
+    100% {transform:scale(1);}
+}
+
+/* ---------- EXPLOSION ---------- */
+
+.explosion span{
     position:absolute;
+    font-size:24px;
+    animation: explode .8s forwards;
+}
+
+@keyframes explode{
+    from{
+        transform:translate(0,0);
+        opacity:1;
+    }
+    to{
+        transform:translate(var(--x), var(--y));
+        opacity:0;
+    }
+}
+
+/* ---------- SUBTEXT ---------- */
+
+.sub {
+    text-align:center;
+    font-size:18px;
+    color:#ff9ecf;
+    margin-top:-10px;
+    margin-bottom:20px;
+}
+
+
+/* ---------- POPUP ---------- */
+
+.popup {
+    position:fixed;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+    background:rgba(0,0,0,0.75);
+    padding:40px;
+    border-radius:20px;
+    backdrop-filter: blur(12px);
+    box-shadow:0 0 40px rgba(255,0,120,0.7);
+    animation:fadeIn .4s ease;
     text-align:center;
+    z-index:999;
 }
 
-/* TITLE */
-.title{
-    font-size:64px;
-    font-weight:800;
-    color:#ff6fa8;
-    text-shadow:0 0 25px #ff3f9f;
-    margin-bottom:40px;
+@keyframes fadeIn{
+    from{opacity:0; transform:translate(-50%,-30%);}
+    to{opacity:1; transform:translate(-50%,-50%);}
 }
 
-/* BEATING HEART */
-.heart{
-    width:120px;
-    height:120px;
-    background:#ff2d75;
-    position:relative;
-    transform:rotate(-45deg);
-    margin:auto;
-    cursor:pointer;
-
-    box-shadow:0 0 40px #ff2d75;
-
-    animation:beat 1s infinite;
-}
-
-.heart:before,
-.heart:after{
-    content:"";
-    width:120px;
-    height:120px;
-    background:#ff2d75;
-    border-radius:50%;
-    position:absolute;
-}
-
-.heart:before{ top:-60px; left:0;}
-.heart:after{ left:60px; top:0;}
-
-@keyframes beat{
-    0%{ transform:scale(1) rotate(-45deg);}
-    25%{ transform:scale(1.15) rotate(-45deg);}
-    40%{ transform:scale(1) rotate(-45deg);}
-    60%{ transform:scale(1.2) rotate(-45deg);}
-    100%{ transform:scale(1) rotate(-45deg);}
-}
-
-/* SUBTEXT */
-.sub{
-    margin-top:30px;
-    color:#ccc;
-    font-size:20px;
-}
-
-/* POPUP STYLE */
-.popup{
-    position:absolute;
-    padding:14px 18px;
-    background:#ff8fb3;
-    border-radius:14px;
-    color:black;
-    font-weight:600;
-    box-shadow:0 10px 25px rgba(0,0,0,.6);
-    animation:pop .25s ease;
-}
-
-@keyframes pop{
-    from{transform:scale(.2);opacity:0}
-    to{transform:scale(1);opacity:1}
-}
-
-/* floating hearts background */
-.bgheart{
-    position:absolute;
-    color:#ff3f9f33;
-    font-size:28px;
-    animation:float 10s linear infinite;
-}
-
-@keyframes float{
-    from{transform:translateY(100vh)}
-    to{transform:translateY(-10vh)}
+.title {
+    font-size:40px;
+    text-align:center;
+    color:white;
+    margin-bottom:20px;
 }
 
 </style>
-</head>
-
-<body>
-
-<div class="wrap">
-    <div class="title">Anh muốn nói với em là...</div>
-    <div class="heart" onclick="flood()"></div>
-    <div class="sub">Bấm vào trái tim 💗</div>
-</div>
+""", unsafe_allow_html=True)
 
 
-<script>
+# ========= FLOATING HEART HTML =========
 
-/* floating background hearts */
-for(let i=0;i<25;i++){
-    let h=document.createElement("div")
-    h.className="bgheart"
-    h.innerHTML="❤"
-    h.style.left=Math.random()*100+"vw"
-    h.style.animationDuration=5+Math.random()*8+"s"
-    document.body.appendChild(h)
-}
+floating_html = "<div class='hearts'>"
+for i in range(20):
+    floating_html += f"<span style='left:{i*5}%; animation-duration:{6+i%5}s'>❤️</span>"
+floating_html += "</div>"
+
+st.markdown(floating_html, unsafe_allow_html=True)
 
 
-/* POPUP FLOOD */
-let msgs=[
-"Anh nhớ em 💗",
-"Anh yêu em",
-"Quay lại đi mà 🥺",
-"Anh luôn ở đây",
-"Smile đi ✨",
-"You mean everything to me",
-"Đừng buồn nữa nhé"
-]
+# ========= TITLE =========
+st.markdown("<div class='title'>Anh muốn nói với em là...</div>", unsafe_allow_html=True)
 
-function spawn(){
-    let d=document.createElement("div")
-    d.className="popup"
+# ========= HEART BUTTON =========
+if st.button("❤️", on_click=open_popup):
+    pass
 
-    d.innerHTML=msgs[Math.floor(Math.random()*msgs.length)]
+st.markdown("<div class='sub'>Bấm vào trái tim hoặc nút phía trên ❤️</div>", unsafe_allow_html=True)
 
-    d.style.left=Math.random()*window.innerWidth+"px"
-    d.style.top=Math.random()*window.innerHeight+"px"
 
-    document.body.appendChild(d)
-}
+# ========= POPUP =========
+if st.session_state.show_popup:
 
-/* MAIN FLOOD */
-function flood(){
+    explosion = "<div class='explosion'>"
+    coords = [
+        ("100px","0"),("-100px","0"),
+        ("0","100px"),("0","-100px"),
+        ("70px","70px"),("-70px","70px"),
+        ("70px","-70px"),("-70px","-70px"),
+    ]
+    for x,y in coords:
+        explosion += f"<span style='--x:{x}; --y:{y}'>❤️</span>"
+    explosion += "</div>"
 
-    let count=0
+    st.markdown(explosion, unsafe_allow_html=True)
 
-    let spam=setInterval(()=>{
-        spawn()
-        count++
-
-        if(count>220)
-            clearInterval(spam)
-
-    },25)
-
-}
-
-</script>
-</body>
-</html>
-"""
-
-components.html(html, height=900)
+    st.markdown("""
+    <div class="popup">
+        <h2 style="color:#ffb6e6">
+        Anh thích em nhiều hơn em nghĩ đó ❤️
+        </h2>
+        <p style="color:white">
+        (đây chỉ là demo — bạn sửa text tùy ý 😏)
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
