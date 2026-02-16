@@ -2,24 +2,30 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
-with open("beautiful.mp3", "rb") as f:
-    music_base64 = base64.b64encode(f.read()).decode()
-
 st.set_page_config(layout="wide", page_title="❤️ Confession", page_icon="❤️")
 
+# ===== FUNCTION =====
 def autoplay_audio(file_path):
     with open(file_path, "rb") as f:
         data = f.read()
         b64 = base64.b64encode(data).decode()
 
     audio_html = f"""
-    <audio autoplay loop muted id="bgMusic">
+    <audio id="bgMusic" autoplay loop>
         <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
     </audio>
+
+    <script>
+    const audio = document.getElementById("bgMusic");
+
+    document.body.addEventListener('click', () => {{
+        audio.muted = false;
+        audio.play();
+    }});
+    </script>
     """
 
     components.html(audio_html, height=0)
-
 html = """
 <!DOCTYPE html>
 <html>
@@ -586,5 +592,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </html>
 """
 
+autoplay_audio("beautiful.mp3")
 
 components.html(html, height=900, scrolling=False)
