@@ -408,7 +408,7 @@ body {
 
 <!-- Background Music -->
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" autoplay muted loop>
     <source src="data:audio/mp3;base64,""" + music_base64 + """ type="audio/mp3">
 </audio>
 
@@ -450,9 +450,10 @@ function toggleMusic() {
         musicControl.innerHTML = '🎵 Music OFF';
         musicPlaying = false;
     } else {
-        bgMusic.play().catch(e => {
-            console.log('Music autoplay blocked. User interaction needed.');
-        });
+
+        bgMusic.muted = false;   // ⭐ QUAN TRỌNG
+        bgMusic.play();
+
         musicControl.innerHTML = '🎵 Music ON';
         musicPlaying = true;
     }
