@@ -1,85 +1,116 @@
-import tkinter as tk
-import random
+import streamlit as st
+import streamlit.components.v1 as components
 
-messages = [
-    "Anh nhớ em lắm 💗",
-    "Anh yêu em",
-    "Đừng buồn nữa nhé",
-    "Anh luôn ở đây",
-    "Smile đi nào ✨",
-]
+st.set_page_config(layout="wide")
 
-# ---------- POPUP ----------
-def create_window():
-    popup = tk.Toplevel(root)
-    popup.geometry("340x170")
-    popup.overrideredirect(False)
-    popup.title("Tràn ngập bộ nhớ")
+# ---------- LANDING UI ----------
+st.markdown("""
+<style>
 
-    # Outer frame (shadow feel)
-    frame = tk.Frame(popup, bg="white", padx=3, pady=3)
-    frame.pack(expand=True, fill="both")
+.main-title{
+    font-size:48px;
+    font-weight:700;
+    text-align:center;
+    background: linear-gradient(90deg,#ff4da6,#ff99cc);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-top:120px;
+}
 
-    # Inner gradient-like color
-    inner = tk.Frame(frame, bg="#FFC0CB")
-    inner.pack(expand=True, fill="both")
+.center-btn button{
+    font-size:26px;
+    background: linear-gradient(135deg,#ff7eb3,#ff4da6);
+    color:white;
+    border-radius:18px;
+    padding:18px 36px;
+    border:none;
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
+    transition:0.25s;
+}
 
-    text = random.choice(messages)
+.center-btn button:hover{
+    transform:scale(1.08);
+}
 
-    label = tk.Label(
-        inner,
-        text=text,
-        bg="#FFC0CB",
-        fg="black",
-        font=("Helvetica", 16, "bold"),
-        wraplength=300,
-        justify="center"
-    )
-    label.pack(expand=True)
+</style>
+""", unsafe_allow_html=True)
 
-    # Random screen position
-    popup.update_idletasks()
-    x = random.randint(0, popup.winfo_screenwidth() - 340)
-    y = random.randint(0, popup.winfo_screenheight() - 170)
-    popup.geometry(f"340x170+{x}+{y}")
+st.markdown('<div class="main-title">Anh muốn nói với em là...</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="center-btn">', unsafe_allow_html=True)
+clicked = st.button("Bấm vào đây 💗")
+st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ---------- SPAWN ----------
-def create_windows_with_delay(count=60, delay=120):
-    if count > 0:
-        create_window()
-        root.after(delay, create_windows_with_delay, count-1, delay)
+# ---------- POPUP FLOOD ----------
+if clicked:
 
+    html = """
+    <html>
+    <body style="margin:0; overflow:hidden; background:linear-gradient(135deg,#fff0f6,#ffe6f2);">
 
-def on_click():
-    create_windows_with_delay()
+    <script>
 
+    let msgs = [
+        "Anh nhớ em 💗",
+        "Anh yêu em",
+        "Đừng buồn nữa nhé",
+        "Quay lại đi mà 🥺",
+        "Anh luôn ở đây",
+        "Smile đi ✨",
+        "You mean a lot to me"
+    ];
 
-# ---------- MAIN ----------
-root = tk.Tk()
-root.geometry("420x220")
-root.title("Anh muốn nói là...")
-root.configure(bg="#FFC0CB")
+    function popup(){
+        let d = document.createElement("div");
 
-# Center window
-root.update_idletasks()
-x = (root.winfo_screenwidth() // 2) - 210
-y = (root.winfo_screenheight() // 2) - 110
-root.geometry(f"+{x}+{y}")
+        let x = Math.random()*window.innerWidth;
+        let y = Math.random()*window.innerHeight;
 
-# Button
-btn = tk.Button(
-    root,
-    text="Muốn nói là...",
-    command=on_click,
-    font=("Helvetica", 22, "bold"),
-    bg="white",
-    fg="black",
-    activebackground="#ff9bb3",
-    relief="flat",
-    padx=20,
-    pady=10
-)
-btn.pack(expand=True)
+        d.innerHTML = msgs[Math.floor(Math.random()*msgs.length)];
 
-root.mainloop()
+        d.style.position="absolute";
+        d.style.left=x+"px";
+        d.style.top=y+"px";
+
+        d.style.padding="14px 18px";
+        d.style.fontSize="18px";
+        d.style.fontWeight="600";
+        d.style.borderRadius="14px";
+
+        /* glass style */
+        d.style.background="rgba(255,192,203,0.85)";
+        d.style.backdropFilter="blur(6px)";
+        d.style.boxShadow="0 10px 20px rgba(0,0,0,0.2)";
+
+        d.style.animation="pop 0.35s ease";
+
+        document.body.appendChild(d);
+    }
+
+    let style = document.createElement("style");
+    style.innerHTML=`
+        @keyframes pop{
+            from{transform:scale(0);opacity:0}
+            to{transform:scale(1);opacity:1}
+        }
+    `;
+    document.head.appendChild(style);
+
+    let count = 0;
+
+    let flood = setInterval(()=>{
+        popup();
+        count++;
+
+        if(count > 140){
+            clearInterval(flood);
+        }
+    }, 35);
+
+    </script>
+    </body>
+    </html>
+    """
+
+    components.html(html, height=900)
