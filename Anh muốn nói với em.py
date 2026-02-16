@@ -2,6 +2,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
+with open("Beautiful In White.mp3", "rb") as f:
+    music_base64 = base64.b64encode(f.read()).decode()
+
 st.set_page_config(layout="wide", page_title="❤️ Confession", page_icon="❤️")
 
 def autoplay_audio(file_path):
@@ -406,7 +409,7 @@ body {
 <!-- Background Music -->
 
 <audio id="bgMusic" loop>
-    <source src="Beautiful In White.mp3" type="audio/mp3">
+    <source src="data:audio/mp3;base64,""" + music_base64 + """ type="audio/mp3">
 </audio>
 
 <script>
