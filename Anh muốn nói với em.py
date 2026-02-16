@@ -405,6 +405,10 @@ body {
 
 <!-- Background Music -->
 
+<audio id="bgMusic" loop>
+    <source src="Beautiful In White.mp3" type="audio/mp3">
+</audio>
+
 <script>
 // ========== CREATE STARS ==========
 const starsContainer = document.getElementById('starsContainer');
@@ -577,6 +581,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </body>
 </html>
 """
-autoplay_audio("Beautiful In White.mp3")
+
 
 components.html(html, height=900, scrolling=False)
