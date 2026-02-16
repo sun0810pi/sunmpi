@@ -1,62 +1,85 @@
-import streamlit as st
-import streamlit.components.v1 as components
+import tkinter as tk
+import random
 
-st.set_page_config(page_title="Anh muốn nói với em", layout="wide")
+messages = [
+    "Anh nhớ em lắm 💗",
+    "Anh yêu em",
+    "Đừng buồn nữa nhé",
+    "Anh luôn ở đây",
+    "Smile đi nào ✨",
+]
 
-st.title("💗 Tmai needs the remedy.")
+# ---------- POPUP ----------
+def create_window():
+    popup = tk.Toplevel(root)
+    popup.geometry("340x170")
+    popup.overrideredirect(False)
+    popup.title("Tràn ngập bộ nhớ")
 
-if st.button("Muốn nói là..."):
+    # Outer frame (shadow feel)
+    frame = tk.Frame(popup, bg="white", padx=3, pady=3)
+    frame.pack(expand=True, fill="both")
 
-    html = """
-    <html>
-    <body style="margin:0; overflow:hidden; background:white;">
+    # Inner gradient-like color
+    inner = tk.Frame(frame, bg="#FFC0CB")
+    inner.pack(expand=True, fill="both")
 
-    <script>
-    let messages = [
-        "Anh nhớ em lắm!!",
-        "Anh yêu em 💗",
-        "Đừng buồn nữa nhé",
-        "Quay lại đi mà 🥺",
-        "Anh luôn ở đây",
-        "Smile đi nào ✨"
-    ];
+    text = random.choice(messages)
 
-    function createPopup(){
-        let div = document.createElement("div");
+    label = tk.Label(
+        inner,
+        text=text,
+        bg="#FFC0CB",
+        fg="black",
+        font=("Helvetica", 16, "bold"),
+        wraplength=300,
+        justify="center"
+    )
+    label.pack(expand=True)
 
-        let x = Math.random()*window.innerWidth;
-        let y = Math.random()*window.innerHeight;
+    # Random screen position
+    popup.update_idletasks()
+    x = random.randint(0, popup.winfo_screenwidth() - 340)
+    y = random.randint(0, popup.winfo_screenheight() - 170)
+    popup.geometry(f"340x170+{x}+{y}")
 
-        div.innerHTML = messages[Math.floor(Math.random()*messages.length)];
 
-        div.style.position="absolute";
-        div.style.left=x+"px";
-        div.style.top=y+"px";
-        div.style.background="#FFC0CB";
-        div.style.padding="14px";
-        div.style.borderRadius="12px";
-        div.style.fontSize="18px";
-        div.style.fontWeight="bold";
-        div.style.boxShadow="0 0 10px rgba(0,0,0,0.3)";
-        div.style.zIndex=9999;
+# ---------- SPAWN ----------
+def create_windows_with_delay(count=60, delay=120):
+    if count > 0:
+        create_window()
+        root.after(delay, create_windows_with_delay, count-1, delay)
 
-        document.body.appendChild(div);
-    }
 
-    // FLOOD giống tkinter
-    let count = 0;
-    let interval = setInterval(()=>{
-        createPopup();
-        count++;
+def on_click():
+    create_windows_with_delay()
 
-        if(count > 120){ // số popup
-            clearInterval(interval);
-        }
-    }, 40); // tốc độ spam
 
-    </script>
-    </body>
-    </html>
-    """
+# ---------- MAIN ----------
+root = tk.Tk()
+root.geometry("420x220")
+root.title("Anh muốn nói là...")
+root.configure(bg="#FFC0CB")
 
-    components.html(html, height=800)
+# Center window
+root.update_idletasks()
+x = (root.winfo_screenwidth() // 2) - 210
+y = (root.winfo_screenheight() // 2) - 110
+root.geometry(f"+{x}+{y}")
+
+# Button
+btn = tk.Button(
+    root,
+    text="Muốn nói là...",
+    command=on_click,
+    font=("Helvetica", 22, "bold"),
+    bg="white",
+    fg="black",
+    activebackground="#ff9bb3",
+    relief="flat",
+    padx=20,
+    pady=10
+)
+btn.pack(expand=True)
+
+root.mainloop()
