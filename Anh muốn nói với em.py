@@ -1,69 +1,62 @@
 import streamlit as st
-import random
-import time
+import streamlit.components.v1 as components
 
-# Page config
-st.set_page_config(
-    page_title="Anh muốn nói với em...",
-    page_icon="💗",
-    layout="centered"
-)
+st.set_page_config(page_title="Anh muốn nói với em", layout="wide")
 
-# ---------- STYLE ----------
-st.markdown("""
-<style>
-.big-button button {
-    background-color:#FFC0CB;
-    color:black;
-    font-size:28px;
-    border-radius:18px;
-    padding:18px 28px;
-}
-
-.popup {
-    background:#FFC0CB;
-    padding:18px;
-    margin:8px;
-    border-radius:12px;
-    text-align:center;
-    font-size:20px;
-    animation: fade 0.4s ease-in-out;
-}
-
-@keyframes fade {
-    from {opacity:0; transform:scale(0.8);}
-    to {opacity:1; transform:scale(1);}
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ---------- STATE ----------
-if "count" not in st.session_state:
-    st.session_state.count = 0
-
-# ---------- UI ----------
 st.title("💗 Tmai needs the remedy.")
 
-st.markdown('<div class="big-button">', unsafe_allow_html=True)
-clicked = st.button("Muốn nói là...")
-st.markdown('</div>', unsafe_allow_html=True)
+if st.button("Muốn nói là..."):
 
-# ---------- ACTION ----------
-if clicked:
-    st.session_state.count += 20
+    html = """
+    <html>
+    <body style="margin:0; overflow:hidden; background:white;">
 
-# ---------- POPUPS ----------
-for i in range(st.session_state.count):
-    message = random.choice([
+    <script>
+    let messages = [
         "Anh nhớ em lắm!!",
         "Anh yêu em 💗",
         "Đừng buồn nữa nhé",
+        "Quay lại đi mà 🥺",
         "Anh luôn ở đây",
         "Smile đi nào ✨"
-    ])
+    ];
 
-    st.markdown(
-        f'<div class="popup">{message}</div>',
-        unsafe_allow_html=True
-    )
-    time.sleep(0.03)
+    function createPopup(){
+        let div = document.createElement("div");
+
+        let x = Math.random()*window.innerWidth;
+        let y = Math.random()*window.innerHeight;
+
+        div.innerHTML = messages[Math.floor(Math.random()*messages.length)];
+
+        div.style.position="absolute";
+        div.style.left=x+"px";
+        div.style.top=y+"px";
+        div.style.background="#FFC0CB";
+        div.style.padding="14px";
+        div.style.borderRadius="12px";
+        div.style.fontSize="18px";
+        div.style.fontWeight="bold";
+        div.style.boxShadow="0 0 10px rgba(0,0,0,0.3)";
+        div.style.zIndex=9999;
+
+        document.body.appendChild(div);
+    }
+
+    // FLOOD giống tkinter
+    let count = 0;
+    let interval = setInterval(()=>{
+        createPopup();
+        count++;
+
+        if(count > 120){ // số popup
+            clearInterval(interval);
+        }
+    }, 40); // tốc độ spam
+
+    </script>
+    </body>
+    </html>
+    """
+
+    components.html(html, height=800)
