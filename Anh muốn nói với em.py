@@ -1,19 +1,21 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import base64
 
 st.set_page_config(layout="wide", page_title="❤️ Confession", page_icon="❤️")
 
-# ===== MUSIC (Beautiful in White) =====
-components.html(
-"""
-<iframe width="0" height="0"
-src="https://www.youtube.com/embed/5qAPxFLFZzI?autoplay=1&loop=1&playlist=5qAPxFLFZzI"
-frameborder="0"
-allow="autoplay">
-</iframe>
-""",
-height=0,
-)
+def autoplay_audio(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+
+    audio_html = f"""
+    <audio autoplay loop muted id="bgMusic">
+        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+    </audio>
+    """
+
+    components.html(audio_html, height=0)
 
 html = """
 <!DOCTYPE html>
@@ -404,8 +406,6 @@ body {
 <!-- Background Music -->
 
 
-<script>
-
 // ========== CREATE STARS ==========
 const starsContainer = document.getElementById('starsContainer');
 for (let i = 0; i < 150; i++) {
@@ -577,5 +577,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </body>
 </html>
 """
+autoplay_audio("Beautiful In White.mp3")
 
 components.html(html, height=900, scrolling=False)
