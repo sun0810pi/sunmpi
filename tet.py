@@ -2,9 +2,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
-st.set_page_config(layout="wide", page_title="🧧 Tết Bính Ngọ 2026", page_icon="🧧")
+st.set_page_config(layout="wide", page_title="🧧 Chúc Mừng Năm Mới", page_icon="🧧")
 
-# ===== ENCODE MUSIC =====
+# ===== ĐỌC VÀ ENCODE NHẠC TẾT =====
 try:
     with open("tet.mp3", "rb") as f:
         audio_data = f.read()
@@ -12,7 +12,7 @@ try:
 except:
     music_base64 = ""
 
-# ===== PREMIUM HTML =====
+# ===== HTML CODE =====
 html = """
 <!DOCTYPE html>
 <html>
@@ -30,94 +30,45 @@ html = """
 body {
     margin: 0;
     overflow: hidden;
-    font-family: 'Georgia', 'Palatino', serif;
-    background: #1a0a00;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(135deg, #ff8800 0%, #ffaa00 25%, #ffdd00 50%, #ff9900 75%, #ff6600 100%);
+    background-size: 400% 400%;
+    animation: gradientMove 20s ease infinite;
     min-height: 100vh;
     position: relative;
-    cursor: default;
 }
 
-/* ========== GRADIENT BACKGROUND ========== */
-.bg-gradient {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #ff6b00 0%, #ffa500 20%, #ffdd00 40%, #ff9900 60%, #ff4500 80%, #ff6b00 100%);
-    background-size: 400% 400%;
-    animation: gradientFlow 25s ease infinite;
-    z-index: 1;
-}
-
-@keyframes gradientFlow {
+@keyframes gradientMove {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-/* ========== PAPER TEXTURE OVERLAY ========== */
-.texture-overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px);
-    opacity: 0.4;
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* ========== SILK PATTERN ========== */
-.silk-pattern {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 0, 0, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
-    z-index: 3;
-    pointer-events: none;
-}
-
-/* ========== VIGNETTE ========== */
-.vignette {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.5);
-    z-index: 4;
-    pointer-events: none;
-}
-
-/* ========== FLOATING ELEMENTS (PARALLAX) ========== */
-.float-layer {
+/* ========== FLOATING ELEMENTS ========== */
+.floaters {
     position: fixed;
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 1;
     overflow: hidden;
 }
 
-.float-layer-1 { z-index: 5; }
-.float-layer-2 { z-index: 6; }
-.float-layer-3 { z-index: 7; }
-
 .floater {
     position: absolute;
+    font-size: 28px;
     opacity: 0;
-    animation: floatDown linear infinite;
-    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
+    animation: float linear infinite;
 }
 
-@keyframes floatDown {
+@keyframes float {
     0% {
-        transform: translateY(-10vh) translateX(0) rotate(0deg) scale(0.8);
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
         opacity: 0;
     }
-    10% { opacity: 0.7; }
+    10% { opacity: 0.8; }
     90% { opacity: 0.3; }
     100% {
-        transform: translateY(110vh) translateX(var(--drift)) rotate(var(--rotate)) scale(1.1);
+        transform: translateY(110vh) translateX(var(--drift)) rotate(360deg);
         opacity: 0;
     }
 }
@@ -125,15 +76,13 @@ body {
 /* ========== LANTERNS ========== */
 .lantern {
     position: fixed;
-    width: 50px;
-    height: 70px;
-    background: linear-gradient(180deg, #ff0000 0%, #b71c1c 50%, #ff0000 100%);
-    border-radius: 0 0 25px 25px;
-    box-shadow: 
-        0 0 30px rgba(255, 215, 0, 0.9),
-        inset 0 5px 20px rgba(255, 255, 255, 0.3);
+    width: 45px;
+    height: 65px;
+    background: linear-gradient(180deg, #ff0000, #cc0000, #ff0000);
+    border-radius: 0 0 22px 22px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
     pointer-events: none;
-    animation: lanternSwing 4s ease-in-out infinite;
+    animation: swing 3.5s ease-in-out infinite;
 }
 
 .lantern::before {
@@ -143,27 +92,25 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: gold;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 900;
-    text-shadow: 0 0 12px rgba(255, 215, 0, 1);
 }
 
 .lantern::after {
     content: '';
     position: absolute;
-    top: -12px;
+    top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 38px;
-    height: 12px;
+    width: 32px;
+    height: 10px;
     background: #8b0000;
-    border-radius: 6px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
 }
 
-@keyframes lanternSwing {
-    0%, 100% { transform: translateX(-18px) rotate(-7deg); }
-    50% { transform: translateX(18px) rotate(7deg); }
+@keyframes swing {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
 }
 
 /* ========== MAIN CONTAINER ========== */
@@ -173,248 +120,155 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 50;
+    z-index: 10;
 }
 
 /* ========== TITLE ========== */
 .title {
-    font-size: clamp(50px, 11vw, 95px);
+    font-size: clamp(48px, 10vw, 85px);
     font-weight: 900;
-    background: linear-gradient(90deg, #ff0000 0%, #ffd700 25%, #ff1744 50%, #ffd700 75%, #ff0000 100%);
-    background-size: 300% 300%;
+    background: linear-gradient(90deg, #ff0000, #ffd700, #ff0000);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 50px;
-    animation: titleShimmer 4s ease infinite;
-    filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.9));
-    letter-spacing: 6px;
-    position: relative;
+    margin-bottom: 45px;
+    animation: shimmerTitle 3s ease infinite;
+    text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+    letter-spacing: 5px;
 }
 
-@keyframes titleShimmer {
+@keyframes shimmerTitle {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-.title::before,
-.title::after {
-    content: '✨';
-    position: absolute;
-    font-size: 45px;
-    top: 50%;
-    transform: translateY(-50%);
-    animation: sparkleFloat 3s ease-in-out infinite;
-}
-
-.title::before {
-    left: -70px;
-}
-
-.title::after {
-    right: -70px;
-    animation-delay: 1.5s;
-}
-
-@keyframes sparkleFloat {
-    0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
-    50% { transform: translateY(calc(-50% - 15px)) scale(1.3); opacity: 1; }
-}
-
-/* ========== 3D ENVELOPE WITH OPENING ========== */
-.envelope-wrapper {
-    perspective: 1800px;
-    margin: 35px 0;
-}
-
+/* ========== RED ENVELOPE ========== */
 .envelope {
-    width: 220px;
-    height: 300px;
+    width: 210px;
+    height: 290px;
     position: relative;
     cursor: pointer;
-    margin: 0 auto;
-    transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    animation: envelopeFloat 4s ease-in-out infinite;
-}
-
-@keyframes envelopeFloat {
-    0%, 100% { transform: translateY(0) rotateX(0deg); }
-    50% { transform: translateY(-18px) rotateX(3deg); }
+    margin: 30px auto;
+    transition: transform 0.3s ease;
 }
 
 .envelope:hover {
-    transform: scale(1.18) rotateY(12deg) translateZ(20px) !important;
-    animation: none;
+    transform: scale(1.15);
 }
 
 .envelope:active {
-    transform: scale(0.92) !important;
+    transform: scale(0.95);
 }
 
-.envelope-body {
+.envelope-bg {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #d32f2f 0%, #ff1744 30%, #f44336 50%, #ff1744 70%, #d32f2f 100%);
-    border-radius: 14px;
+    background: linear-gradient(135deg, #d32f2f 0%, #ff1744 50%, #d32f2f 100%);
+    border-radius: 12px;
     position: relative;
     box-shadow: 
-        0 30px 80px rgba(0, 0, 0, 0.6),
-        0 0 100px rgba(255, 215, 0, 0.7),
-        inset 0 0 60px rgba(255, 215, 0, 0.35);
-    overflow: hidden;
-    transform-style: preserve-3d;
+        0 25px 60px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(255, 215, 0, 0.6),
+        inset 0 0 50px rgba(255, 215, 0, 0.3);
+    animation: glow 2s ease-in-out infinite;
 }
 
-/* Shimmer light */
-.envelope-body::before {
-    content: '';
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 100px rgba(255, 215, 0, 0.9);
+    }
+}
+
+.envelope-border {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
-    animation: shimmerSweep 4s ease-in-out infinite;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border: 3px solid gold;
+    border-radius: 10px;
 }
 
-@keyframes shimmerSweep {
-    0%, 100% { transform: translateX(-100%) translateY(-100%); }
-    50% { transform: translateX(50%) translateY(50%); }
-}
-
-/* Golden frame */
-.envelope-frame {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    border: 4px solid gold;
-    border-radius: 11px;
-    box-shadow: 
-        inset 0 0 25px rgba(255, 215, 0, 0.6),
-        0 0 15px rgba(255, 215, 0, 0.4);
-}
-
-/* 福 character with 3D depth */
 .envelope-fu {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) translateZ(15px);
-    font-size: 110px;
+    transform: translate(-50%, -50%);
+    font-size: 105px;
     font-weight: 900;
     color: gold;
     text-shadow: 
-        0 0 40px rgba(255, 215, 0, 1),
-        0 0 70px rgba(255, 215, 0, 0.8),
-        5px 5px 0 rgba(139, 0, 0, 0.6),
-        -2px -2px 0 rgba(255, 255, 255, 0.3);
-    animation: fuBreath 2.8s ease-in-out infinite;
-    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4));
+        0 0 30px rgba(255, 215, 0, 1),
+        0 0 50px rgba(255, 215, 0, 0.8),
+        4px 4px 0 rgba(139, 0, 0, 0.5);
+    animation: pulse 2.2s ease-in-out infinite;
 }
 
-@keyframes fuBreath {
-    0%, 100% { transform: translate(-50%, -50%) translateZ(15px) scale(1); }
-    50% { transform: translate(-50%, -50%) translateZ(25px) scale(1.1); }
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.08); }
 }
-
-/* Decorative corners */
-.corner-dec {
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    background: radial-gradient(circle, gold 0%, #ffa500 100%);
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
-    opacity: 0.9;
-}
-
-.corner-dec.tl { top: 8px; left: 8px; }
-.corner-dec.tr { top: 8px; right: 8px; transform: rotate(90deg); }
-.corner-dec.bl { bottom: 8px; left: 8px; transform: rotate(-90deg); }
-.corner-dec.br { bottom: 8px; right: 8px; transform: rotate(180deg); }
 
 /* ========== SUBTEXT ========== */
 .subtext {
-    margin-top: 45px;
-    font-size: clamp(24px, 5vw, 32px);
+    margin-top: 40px;
+    font-size: clamp(22px, 5vw, 28px);
     color: white;
     font-weight: 800;
     text-shadow: 
-        0 0 25px rgba(255, 215, 0, 1),
-        3px 3px 6px rgba(0, 0, 0, 0.6);
-    animation: subtextPulse 2.8s ease-in-out infinite;
-}
-
-@keyframes subtextPulse {
-    0%, 100% { opacity: 0.9; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.06); }
+        0 0 20px rgba(255, 215, 0, 0.9),
+        2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* ========== COUNTER ========== */
 .counter {
     position: fixed;
-    top: 28px;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, rgba(211, 47, 47, 0.95), rgba(183, 28, 28, 0.95));
-    backdrop-filter: blur(12px);
-    border: 4px solid gold;
-    border-radius: 45px;
-    padding: 14px 35px;
+    background: rgba(255, 0, 0, 0.9);
+    border: 3px solid gold;
+    border-radius: 40px;
+    padding: 12px 30px;
     color: gold;
-    font-weight: 900;
-    font-size: 22px;
-    z-index: 600;
-    box-shadow: 
-        0 10px 40px rgba(211, 47, 47, 0.7),
-        0 0 40px rgba(255, 215, 0, 0.6),
-        inset 0 2px 10px rgba(255, 255, 255, 0.2);
+    font-weight: 800;
+    font-size: 20px;
+    z-index: 500;
+    box-shadow: 0 8px 30px rgba(255, 0, 0, 0.6);
 }
 
 .counter-num {
-    font-size: 34px;
-    display: inline-block;
-    animation: counterPop 0.4s ease;
+    font-size: 30px;
+    font-weight: 900;
 }
 
-@keyframes counterPop {
-    0% { transform: scale(1.6); }
-    50% { transform: scale(0.9); }
-    100% { transform: scale(1); }
-}
-
-/* ========== LION DANCE ========== */
-.lion {
+/* ========== HORSES ========== */
+.horse {
     position: fixed;
-    font-size: 52px;
+    font-size: 48px;
     pointer-events: none;
-    z-index: 150;
-    animation: lionDance 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+    z-index: 100;
+    animation: horseRun 2.2s ease-out forwards;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9));
 }
 
-@keyframes lionDance {
+@keyframes horseRun {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(0.9);
+        transform: translate(0, 0) rotate(0deg) scale(1);
         opacity: 1;
     }
-    25% {
-        transform: translate(var(--lx1), var(--ly1)) rotate(120deg) scale(1.4);
-        opacity: 1;
+    30% {
+        transform: translate(var(--hx1), var(--hy1)) rotate(180deg) scale(1.3);
     }
-    50% {
-        transform: translate(var(--lx2), var(--ly2)) rotate(240deg) scale(1.2);
-        opacity: 0.95;
-    }
-    75% {
-        transform: translate(var(--lx3), var(--ly3)) rotate(480deg) scale(0.9);
-        opacity: 0.7;
+    60% {
+        transform: translate(var(--hx2), var(--hy2)) rotate(360deg) scale(1.1);
     }
     100% {
-        transform: translate(var(--lx4), var(--ly4)) rotate(720deg) scale(0.3);
+        transform: translate(var(--hx3), var(--hy3)) rotate(540deg) scale(0.4);
         opacity: 0;
     }
 }
@@ -422,202 +276,172 @@ body {
 /* ========== MONEY ========== */
 .money {
     position: fixed;
-    width: 58px;
-    height: 30px;
-    background: linear-gradient(135deg, #1b5e20, #43a047, #66bb6a);
+    width: 55px;
+    height: 28px;
+    background: linear-gradient(135deg, #228b22, #32cd32);
     border: 2px solid gold;
-    border-radius: 5px;
+    border-radius: 4px;
     pointer-events: none;
-    z-index: 140;
-    animation: moneyFly 2s ease-out forwards;
+    z-index: 90;
+    animation: moneyFly 1.8s ease-out forwards;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+    font-size: 18px;
 }
 
 @keyframes moneyFly {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
+        transform: translate(0, 0) rotate(0deg);
         opacity: 1;
     }
     100% {
-        transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(0.4);
+        transform: translate(var(--mx), var(--my)) rotate(var(--mr));
         opacity: 0;
     }
 }
 
-/* ========== FIREWORK BLOOM ========== */
+/* ========== FIREWORKS ========== */
 .firework {
     position: fixed;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
+    background: gold;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 130;
-    animation: fireworkBloom 1.6s ease-out forwards;
+    z-index: 80;
+    animation: explode 1.3s ease-out forwards;
+    box-shadow: 0 0 15px currentColor;
 }
 
-@keyframes fireworkBloom {
+@keyframes explode {
     0% {
-        transform: translate(0, 0) scale(1);
+        transform: translate(0, 0);
         opacity: 1;
-        box-shadow: 0 0 20px currentColor;
-    }
-    50% {
-        box-shadow: 0 0 40px currentColor;
     }
     100% {
-        transform: translate(var(--fx), var(--fy)) scale(0);
+        transform: translate(var(--fx), var(--fy));
         opacity: 0;
-        box-shadow: 0 0 5px currentColor;
     }
 }
 
 /* ========== CONFETTI ========== */
 .confetti {
     position: fixed;
-    font-size: 22px;
+    font-size: 20px;
     pointer-events: none;
-    z-index: 135;
-    animation: confettiTwirl 3s ease-out forwards;
+    z-index: 85;
+    animation: confettiDrop 2.5s ease-out forwards;
 }
 
-@keyframes confettiTwirl {
+@keyframes confettiDrop {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
+        transform: translate(0, 0) rotate(0deg);
         opacity: 1;
     }
     100% {
-        transform: translate(var(--cx), var(--cy)) rotate(var(--cr)) scale(0.5);
+        transform: translate(var(--cx), var(--cy)) rotate(720deg);
         opacity: 0;
     }
 }
 
-/* ========== BLESSING SCROLL WITH UNROLL ========== */
+/* ========== BLESSING SCROLL ========== */
 .scroll {
     position: fixed;
-    width: 390px;
+    width: 370px;
+    min-height: 210px;
     pointer-events: none;
-    z-index: 400;
-    animation: scrollUnroll 4.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    z-index: 300;
+    animation: scrollShow 4.2s ease-out forwards;
 }
 
-@keyframes scrollUnroll {
+@keyframes scrollShow {
     0% {
-        transform: translateY(60px) scaleY(0) scaleX(0.3) rotate(-12deg);
+        transform: translateY(50px) scale(0.3) rotate(-10deg);
         opacity: 0;
     }
-    20% {
-        transform: translateY(0) scaleY(0.3) scaleX(0.8) rotate(3deg);
+    15% {
+        transform: translateY(0) scale(1.05) rotate(2deg);
         opacity: 1;
     }
-    40% {
-        transform: scaleY(1) scaleX(1) rotate(0deg);
-    }
-    90% {
+    88% {
         opacity: 1;
-        transform: scaleY(1) scaleX(1) rotate(0deg);
     }
     100% {
-        transform: translateY(-50px) scaleY(0.8) scaleX(0.9) rotate(-4deg);
+        transform: translateY(-40px) scale(0.9) rotate(-3deg);
         opacity: 0;
     }
 }
 
 .scroll-paper {
-    background: linear-gradient(180deg, #7f0000 0%, #b71c1c 20%, #c62828 40%, #d32f2f 50%, #c62828 60%, #b71c1c 80%, #7f0000 100%);
-    border: 5px solid gold;
-    border-radius: 14px;
-    padding: 32px 22px;
+    background: linear-gradient(180deg, #8b0000, #cc0000, #8b0000);
+    border: 4px solid gold;
+    border-radius: 12px;
+    padding: 30px 20px;
     position: relative;
     box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.8),
-        0 0 50px rgba(255, 215, 0, 0.8),
-        inset 0 0 40px rgba(255, 215, 0, 0.35);
-    min-height: 200px;
-}
-
-/* Inner decorative border */
-.scroll-paper::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 2px solid rgba(255, 215, 0, 0.4);
-    border-radius: 10px;
-    pointer-events: none;
+        0 20px 60px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(255, 215, 0, 0.7),
+        inset 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .scroll-text {
     color: gold;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 800;
     text-align: center;
-    line-height: 1.75;
-    text-shadow: 
-        0 0 25px rgba(255, 215, 0, 0.9),
-        3px 3px 6px rgba(0, 0, 0, 0.8);
-    position: relative;
-    z-index: 1;
+    line-height: 1.7;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .scroll-couplet {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 3px solid rgba(255, 215, 0, 0.6);
-    font-size: 20px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 2px solid rgba(255, 215, 0, 0.5);
+    font-size: 18px;
     font-style: italic;
-    line-height: 2;
+    line-height: 1.9;
 }
 
-/* ========== RIPPLE WAVE ========== */
+.scroll-seal {
+    position: absolute;
+    bottom: 12px;
+    right: 15px;
+    width: 48px;
+    height: 48px;
+    background: #cc0000;
+    border: 2px solid #8b0000;
+    border-radius: 4px;
+    color: white;
+    font-size: 22px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-8deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* ========== RIPPLE ========== */
 .ripple {
     position: fixed;
-    border: 6px solid rgba(255, 215, 0, 1);
+    border: 5px solid rgba(255, 215, 0, 1);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 120;
-    animation: rippleWave 1.5s ease-out forwards;
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+    z-index: 70;
+    animation: ripple 1.2s ease-out forwards;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
 }
 
-@keyframes rippleWave {
+@keyframes ripple {
     0% {
         width: 0;
         height: 0;
         opacity: 1;
     }
     100% {
-        width: 600px;
-        height: 600px;
-        opacity: 0;
-    }
-}
-
-/* ========== GOLD SPARKLE TRAIL ========== */
-.sparkle-trail {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: gold;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 110;
-    box-shadow: 0 0 15px gold;
-    animation: sparkleTrailFade 1.2s ease-out forwards;
-}
-
-@keyframes sparkleTrailFade {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0) translateY(30px);
+        width: 550px;
+        height: 550px;
         opacity: 0;
     }
 }
@@ -625,80 +449,54 @@ body {
 /* ========== MUSIC BUTTON ========== */
 .music-btn {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
-    background: linear-gradient(135deg, rgba(211, 47, 47, 0.95), rgba(183, 28, 28, 0.95));
-    backdrop-filter: blur(10px);
-    border: 4px solid gold;
-    border-radius: 45px;
-    padding: 16px 30px;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(255, 0, 0, 0.9);
+    border: 3px solid gold;
+    border-radius: 40px;
+    padding: 14px 26px;
     color: gold;
-    font-weight: 800;
-    font-size: 19px;
+    font-weight: 700;
+    font-size: 17px;
     cursor: pointer;
-    z-index: 600;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 
-        0 8px 35px rgba(211, 47, 47, 0.7),
-        0 0 40px rgba(255, 215, 0, 0.5);
+    z-index: 500;
+    transition: transform 0.3s ease;
+    box-shadow: 0 6px 25px rgba(255, 0, 0, 0.6);
 }
 
 .music-btn:hover {
-    transform: scale(1.15) translateY(-4px);
-    box-shadow: 
-        0 12px 45px rgba(211, 47, 47, 0.9),
-        0 0 60px rgba(255, 215, 0, 0.8);
+    transform: scale(1.12);
 }
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .envelope {
-        width: 170px;
-        height: 240px;
+        width: 160px;
+        height: 220px;
     }
     
     .envelope-fu {
-        font-size: 80px;
+        font-size: 75px;
     }
     
     .title {
-        font-size: 38px;
-        letter-spacing: 3px;
-    }
-    
-    .title::before,
-    .title::after {
-        font-size: 30px;
-        left: -50px;
-    }
-    
-    .title::after {
-        right: -50px;
+        font-size: 36px;
     }
     
     .subtext {
-        font-size: 22px;
-    }
-    
-    .scroll {
-        width: 310px;
-    }
-    
-    .scroll-text {
         font-size: 20px;
     }
     
+    .scroll {
+        width: 300px;
+    }
+    
+    .scroll-text {
+        font-size: 19px;
+    }
+    
     .scroll-couplet {
-        font-size: 17px;
-    }
-    
-    .counter {
-        font-size: 18px;
-        padding: 12px 28px;
-    }
-    
-    .counter-num {
-        font-size: 28px;
+        font-size: 16px;
     }
 }
 
@@ -707,16 +505,8 @@ body {
 
 <body>
 
-<!-- Background Layers -->
-<div class="bg-gradient"></div>
-<div class="texture-overlay"></div>
-<div class="silk-pattern"></div>
-<div class="vignette"></div>
-
-<!-- Parallax Float Layers -->
-<div class="float-layer float-layer-1" id="floatLayer1"></div>
-<div class="float-layer float-layer-2" id="floatLayer2"></div>
-<div class="float-layer float-layer-3" id="floatLayer3"></div>
+<!-- Floaters Container -->
+<div class="floaters" id="floaters"></div>
 
 <!-- Lanterns -->
 <div id="lanterns"></div>
@@ -728,117 +518,68 @@ body {
 
 <!-- Main Content -->
 <div class="container">
-    <div class="title">Tết Bính Ngọ 2026</div>
+    <div class="title">Chúc Mừng Năm Mới</div>
     
-    <div class="envelope-wrapper">
-        <div class="envelope" id="envelope">
-            <div class="envelope-body">
-                <div class="envelope-frame"></div>
-                <div class="envelope-fu">福</div>
-                <div class="corner-dec tl"></div>
-                <div class="corner-dec tr"></div>
-                <div class="corner-dec bl"></div>
-                <div class="corner-dec br"></div>
-            </div>
+    <div class="envelope" id="envelope">
+        <div class="envelope-bg">
+            <div class="envelope-border"></div>
+            <div class="envelope-fu">福</div>
         </div>
     </div>
     
-    <div class="subtext">🦁 Nhấn Nhận Phúc Lộc 🦁</div>
+    <div class="subtext">🧧 Nhấn Nhận Lộc 🧧</div>
 </div>
 
 <!-- Music Button -->
 <div class="music-btn" id="musicBtn">🎵 Nhạc Tết</div>
 
-<!-- Audio with fade -->
+<!-- Background Music -->
 <audio id="music" loop>
     <source src="data:audio/mp3;base64,""" + music_base64 + """" type="audio/mp3">
 </audio>
 
 <script>
 
-// ========== INIT PARALLAX FLOATERS ==========
-const floatLayer1 = document.getElementById('floatLayer1');
-const floatLayer2 = document.getElementById('floatLayer2');
-const floatLayer3 = document.getElementById('floatLayer3');
+// ========== INIT FLOATERS ==========
+const floaters = document.getElementById('floaters');
+const floaterIcons = ['🌸', '🌺', '🏵️', '💮', '🌼', '🎋'];
 
-const floaterIcons = ['🌸', '🌺', '🏵️', '💮', '🌼', '🎋', '🌷'];
-
-function createFloaters(container, count, speedMod) {
-    for (let i = 0; i < count; i++) {
-        const div = document.createElement('div');
-        div.className = 'floater';
-        div.textContent = floaterIcons[Math.floor(Math.random() * floaterIcons.length)];
-        div.style.left = Math.random() * 100 + '%';
-        div.style.fontSize = (24 + Math.random() * 18) + 'px';
-        div.style.setProperty('--drift', (Math.random() - 0.5) * 400 + 'px');
-        div.style.setProperty('--rotate', (Math.random() * 720) + 'deg');
-        div.style.animationDuration = ((18 + Math.random() * 18) * speedMod) + 's';
-        div.style.animationDelay = Math.random() * 12 + 's';
-        container.appendChild(div);
-    }
+for (let i = 0; i < 45; i++) {
+    const div = document.createElement('div');
+    div.className = 'floater';
+    div.textContent = floaterIcons[Math.floor(Math.random() * floaterIcons.length)];
+    div.style.left = Math.random() * 100 + '%';
+    div.style.fontSize = (22 + Math.random() * 18) + 'px';
+    div.style.setProperty('--drift', (Math.random() - 0.5) * 350 + 'px');
+    div.style.animationDuration = (16 + Math.random() * 16) + 's';
+    div.style.animationDelay = Math.random() * 10 + 's';
+    floaters.appendChild(div);
 }
-
-createFloaters(floatLayer1, 15, 1.2);
-createFloaters(floatLayer2, 15, 1.0);
-createFloaters(floatLayer3, 15, 0.8);
 
 // ========== INIT LANTERNS ==========
 const lanternsDiv = document.getElementById('lanterns');
-const lanternPos = [
-    { left: '8%', top: '8%', delay: 0 },
-    { left: '23%', top: '4%', delay: 0.3 },
-    { left: '50%', top: '2%', delay: 0.6 },
-    { left: '77%', top: '6%', delay: 0.9 },
-    { left: '92%', top: '10%', delay: 1.2 }
+const positions = [
+    { left: '10%', top: '10%' },
+    { left: '25%', top: '5%' },
+    { left: '50%', top: '3%' },
+    { left: '75%', top: '7%' },
+    { left: '90%', top: '12%' }
 ];
 
-lanternPos.forEach(pos => {
+positions.forEach((pos, i) => {
     const lantern = document.createElement('div');
     lantern.className = 'lantern';
     lantern.style.left = pos.left;
     lantern.style.top = pos.top;
-    lantern.style.zIndex = '10';
-    lantern.style.animationDelay = pos.delay + 's';
+    lantern.style.zIndex = '2';
+    lantern.style.animationDelay = (i * 0.3) + 's';
     lanternsDiv.appendChild(lantern);
 });
 
-// ========== GOLD SPARKLE MOUSE TRAIL ==========
-let lastSparkleTime = 0;
-document.addEventListener('mousemove', (e) => {
-    const now = Date.now();
-    if (now - lastSparkleTime > 50) {
-        createSparkleTrail(e.pageX, e.pageY);
-        lastSparkleTime = now;
-    }
-});
-
-function createSparkleTrail(x, y) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle-trail';
-    sparkle.style.left = x + 'px';
-    sparkle.style.top = y + 'px';
-    document.body.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 1200);
-}
-
-// ========== MUSIC WITH FADE ==========
+// ========== MUSIC CONTROL ==========
 let playing = false;
 const music = document.getElementById('music');
 const musicBtn = document.getElementById('musicBtn');
-
-music.volume = 0;
-
-function fadeInMusic() {
-    let vol = 0;
-    const interval = setInterval(() => {
-        if (vol < 1) {
-            vol += 0.05;
-            music.volume = Math.min(vol, 1);
-        } else {
-            clearInterval(interval);
-        }
-    }, 50);
-}
 
 musicBtn.onclick = () => {
     if (playing) {
@@ -846,128 +587,122 @@ musicBtn.onclick = () => {
         musicBtn.textContent = '🎵 Nhạc Tết (Tắt)';
         playing = false;
     } else {
-        music.play().then(() => {
-            fadeInMusic();
-            musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
-            playing = true;
-        }).catch(e => console.log('Play error'));
+        music.play().catch(e => console.log('Play error:', e));
+        musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
+        playing = true;
     }
 };
 
+// Auto-play on first click
 document.body.addEventListener('click', function autoPlay() {
     if (!playing) {
         music.play().then(() => {
-            fadeInMusic();
             playing = true;
             musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
         }).catch(e => {});
     }
 }, { once: true });
 
-// ========== CONTENT (60+ LINES) ==========
+// ========== BLESSINGS & COUPLETS ==========
 const blessings = [
-    "Chúc mừng năm mới", "An khang thịnh vượng", "Vạn sự như ý", 
-    "Tấn tài tấn lộc", "Phúc lộc đầy nhà", "Sức khỏe dồi dào",
-    "Tiền vô như nước", "Gia đình hạnh phúc", "Công danh phát đạt",
-    "Xuân về ngàn lộc", "Trăm năm hạnh phúc", "Vạn sự cát tường",
-    "Tài lộc tràn trề", "Phát tài phát lộc", "Như ý cát tường",
-    "Thiên hạ thái bình", "Quốc thái dân an", "Lộc tới nhà đầy",
-    "Phúc đức viên mãn", "Tài vận hanh thông", "Gia tài vạn quán",
-    "Lộc đến tài sinh", "Phát lộc phát tài", "Ngũ phúc lâm môn",
-    "Vạn sự hanh thông", "Phúc thọ khang ninh", "Tứ quý tam đa",
-    "Kim ngọc mãn đường", "Phúc như Đông Hải", "Thọ tỉ Nam Sơn",
-    "Tài lộc viên mãn", "Phúc lộc song toàn", "Cát tường như ý"
+    "Chúc mừng năm mới",
+    "An khang thịnh vượng",
+    "Vạn sự như ý",
+    "Tấn tài tấn lộc",
+    "Phúc lộc đầy nhà",
+    "Sức khỏe dồi dào",
+    "Tiền vô như nước",
+    "Gia đình hạnh phúc",
+    "Công danh phát đạt",
+    "Xuân về ngàn lộc",
+    "Trăm năm hạnh phúc",
+    "Vạn sự cát tường",
+    "Tài lộc tràn trề",
+    "Phát tài phát lộc",
+    "Như ý cát tường",
+    "Ngựa phi ngàn dặm",
+    "Mã đáo thành công",
+    "Vạn mã bôn tẩu",
+    "Thiên hạ thái bình",
+    "Quốc thái dân an",
+    "Cát tường như ý",
+    "Lộc tới nhà đầy",
+    "Phúc đức viên mãn",
+    "Tài vận hanh thông",
+    "Gia tài vạn quán",
+    "Lộc đến tài sinh",
+    "Phát lộc phát tài",
+    "Ngũ phúc lâm môn"
 ];
 
 const couplets = [
     "Xuân sang cội phúc sinh nhành lộc<br>Tết về cây đức trổ thêm hoa",
     "Mai vàng nở rộ nghênh xuân đến<br>Phúc thọ đầy nhà đón Tết sang",
-    "Đào hồng nở thắm tươi xuân mới<br>Lân múa lượn ca cõi nhân gian",
+    "Đào hồng nở thắm tươi xuân mới<br>Hạc bay lượn múa cõi trần gian",
     "Thiên thời hòa thuận xuân về sớm<br>Địa lợi phì nhiêu lộc đến đầy",
     "Xuân đến trong nhà hương sắc mới<br>Tết về khắp phố ánh đèn hoa",
     "Cành đào khoe sắc xuân ân cả<br>Lộc biếc rực vàng nghĩa nặng tình",
     "Phúc đến nhà đầy vui sướng mãi<br>Lộc về trong phố ấm no luôn",
     "Đất trời đổi mới xuân tươi thắm<br>Nhà cửa sum vầy phúc lộc đầy",
-    "Lân múa rộn ràng xuân mới đến<br>Phúc lộc đầy nhà tấn tài vinh",
-    "Vàng son rực rỡ lân múa tưng bừng<br>Đỏ thắm tươi xinh xuân về sum vầy",
-    "Gió xuân đưa lộc về nhà lớn<br>Mưa phúc nhuần tài khắp cõi người",
+    "Ngựa phi về tới lập công liền<br>Vạn dặm bôn tẩu nghĩa khí đầy",
+    "Mã đáo thành công xuân rạng rỡ<br>Tài lộc tràn trề đêm tuyệt vời",
+    "Ngựa vàng phi nhanh tới nhà lớn<br>Lộc đỏ tràn về khắp cõi đời",
+    "Xuân đến Bính Ngọ phúc lộc tới<br>Tết sang năm Ngựa tấn tài hanh",
+    "Gà gáy lời xưa còn dư vang<br>Ngựa phi công mới đến đầy nhà",
     "Cát tường như ý xuân hanh thông<br>Phát tài phát lộc Tết đầm ấm",
-    "Trúc xanh thẳng ngắn xuân ân cả<br>Lân múa phi bay đạo đức tròn",
-    "Mai nở vàng tươi trong nhà lớn<br>Phúc đến thành công khắp đất trời",
-    "Hạc múa lân ca xuân rạng ngời<br>Rồng bay phượng múa phúc đầy nhà",
-    "Ngàn năm phúc lộc đầy vườn xuân<br>Vạn dặm tài danh rực nẻo đường",
-    "Xuân phát tài lộc đầy trời đất<br>Tết mang phúc đức khắp nhân gian",
-    "Bông mai vàng ươm xuân tươi thắm<br>Chữ phúc đỏ tươi Tết rực rỡ",
-    "Lân múa đường xuân đón lộc về<br>Phúc lâm cửa nhà mang tài đến",
-    "Cửa nhà tứ quý kim ngọc mãn<br>Trong phố tam đa phúc lộc đầy",
-    "Xuân đến Bính Ngọ phúc lộc tới<br>Lân múa rực rỡ tấn tài hanh",
-    "Đào hồng khoe sắc nghênh tân xuân<br>Lân vũ bay múa chúc vạn lộc",
-    "Năm mới lân múa đem phúc tới<br>Tết đến rực rỡ mang lộc về",
-    "Phúc lộc song toàn đầy trời đất<br>Tài danh viên mãn khắp nhân gian",
-    "Xuân về lân nhảy rộn ràng hát<br>Tết đến rồng bay tấn lộc vui",
-    "Trống lân vang dội xuân sum vầy<br>Pháo hoa rực rỡ phúc đầy nhà",
-    "Mười năm cây cối nay sum suê<br>Trăm tuổi phúc lành mai tươi thắm",
-    "Đầu xuân cát tụng hân hoan khắp<br>Ngọ Tết khai xuân phúc lộc dồi"
+    "Ngựa vàng chở đến muôn điều may<br>Xuân mới rạng ngời nghìn sự vui",
+    "Trúc xanh thẳng ngắn xuân ân cả<br>Ngựa phi vượt núi đạo đức tròn",
+    "Mai nở vàng tươi trong nhà lớn<br>Ngựa phi bôn tẩu khắp đất trời",
+    "Năm Ngựa phi mau rước lộc về<br>Tết đến sum vầy đoàn tụ đầy"
 ];
 
 // ========== COUNTER ==========
 let count = 0;
-let clickIntensity = 0;
 const counter = document.getElementById('counter');
 
 function updateCounter() {
     count++;
     counter.textContent = count;
-    const numEl = counter.querySelector('.counter-num');
-    numEl.style.animation = 'none';
-    setTimeout(() => {
-        numEl.style.animation = 'counterPop 0.4s ease';
-    }, 10);
 }
 
 // ========== EFFECTS ==========
 function createRipple(x, y) {
     const ripple = document.createElement('div');
     ripple.className = 'ripple';
-    ripple.style.left = (x - 300) + 'px';
-    ripple.style.top = (y - 300) + 'px';
+    ripple.style.left = (x - 275) + 'px';
+    ripple.style.top = (y - 275) + 'px';
     document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 1500);
+    setTimeout(() => ripple.remove(), 1200);
 }
 
-function createLions(x, y, intensity) {
-    const num = Math.min(10 + intensity * 2, 18);
-    
+function createHorses(x, y) {
+    const num = 14;
     for (let i = 0; i < num; i++) {
-        const lion = document.createElement('div');
-        lion.className = 'lion';
-        lion.textContent = '🦁';
-        lion.style.left = x + 'px';
-        lion.style.top = y + 'px';
+        const horse = document.createElement('div');
+        horse.className = 'horse';
+        horse.textContent = '🐴';
+        horse.style.left = x + 'px';
+        horse.style.top = y + 'px';
         
         const angle = (i / num) * Math.PI * 2;
-        const d1 = 160 + Math.random() * 80;
-        const d2 = 290 + Math.random() * 110;
-        const d3 = 460 + Math.random() * 140;
-        const d4 = 620 + Math.random() * 180;
+        const d1 = 170 + Math.random() * 70;
+        const d2 = 300 + Math.random() * 100;
+        const d3 = 500 + Math.random() * 150;
         
-        lion.style.setProperty('--lx1', Math.cos(angle) * d1 + 'px');
-        lion.style.setProperty('--ly1', Math.sin(angle) * d1 - 80 + 'px');
-        lion.style.setProperty('--lx2', Math.cos(angle) * d2 + 'px');
-        lion.style.setProperty('--ly2', Math.sin(angle) * d2 - 160 + 'px');
-        lion.style.setProperty('--lx3', Math.cos(angle) * d3 + 'px');
-        lion.style.setProperty('--ly3', Math.sin(angle) * d3 - 250 + 'px');
-        lion.style.setProperty('--lx4', Math.cos(angle) * d4 + 'px');
-        lion.style.setProperty('--ly4', Math.sin(angle) * d4 - 340 + 'px');
+        horse.style.setProperty('--hx1', Math.cos(angle) * d1 + 'px');
+        horse.style.setProperty('--hy1', Math.sin(angle) * d1 - 70 + 'px');
+        horse.style.setProperty('--hx2', Math.cos(angle) * d2 + 'px');
+        horse.style.setProperty('--hy2', Math.sin(angle) * d2 - 140 + 'px');
+        horse.style.setProperty('--hx3', Math.cos(angle) * d3 + 'px');
+        horse.style.setProperty('--hy3', Math.sin(angle) * d3 - 250 + 'px');
         
-        document.body.appendChild(lion);
-        setTimeout(() => lion.remove(), 2500);
+        document.body.appendChild(horse);
+        setTimeout(() => horse.remove(), 2200);
     }
 }
 
-function createMoney(x, y, intensity) {
-    const num = Math.min(15 + intensity, 25);
-    
+function createMoney(x, y) {
+    const num = 18;
     for (let i = 0; i < num; i++) {
         const money = document.createElement('div');
         money.className = 'money';
@@ -976,20 +711,20 @@ function createMoney(x, y, intensity) {
         money.style.top = y + 'px';
         
         const angle = (i / num) * Math.PI * 2;
-        const dist = 130 + Math.random() * 240;
+        const dist = 140 + Math.random() * 220;
         
         money.style.setProperty('--mx', Math.cos(angle) * dist + 'px');
-        money.style.setProperty('--my', Math.sin(angle) * dist - 90 + 'px');
-        money.style.setProperty('--mr', (Math.random() - 0.5) * 900 + 'deg');
+        money.style.setProperty('--my', Math.sin(angle) * dist - 80 + 'px');
+        money.style.setProperty('--mr', (Math.random() - 0.5) * 720 + 'deg');
         
         document.body.appendChild(money);
-        setTimeout(() => money.remove(), 2000);
+        setTimeout(() => money.remove(), 1800);
     }
 }
 
-function createFireworks(x, y, intensity) {
-    const num = Math.min(30 + intensity * 3, 50);
-    const colors = ['#ffd700', '#ff0000', '#ffcc00', '#ff6b00', '#ff1744', '#ffa500'];
+function createFireworks(x, y) {
+    const num = 35;
+    const colors = ['gold', '#ff0000', '#ffd700', '#ff6b00', '#ffcc00'];
     
     for (let i = 0; i < num; i++) {
         const fw = document.createElement('div');
@@ -999,20 +734,20 @@ function createFireworks(x, y, intensity) {
         fw.style.background = colors[Math.floor(Math.random() * colors.length)];
         
         const angle = (i / num) * Math.PI * 2;
-        const dist = 150 + Math.random() * 220;
+        const dist = 160 + Math.random() * 200;
         
         fw.style.setProperty('--fx', Math.cos(angle) * dist + 'px');
         fw.style.setProperty('--fy', Math.sin(angle) * dist + 'px');
         
         document.body.appendChild(fw);
-        setTimeout(() => fw.remove(), 1600);
+        setTimeout(() => fw.remove(), 1300);
     }
 }
 
-function createConfetti(x, y, intensity) {
-    const num = Math.min(35 + intensity * 2, 55);
-    const icons = ['●', '■', '▲', '◆', '★', '✦', '❖'];
-    const colors = ['#ff0000', '#ffd700', '#ff6b00', '#ffcc00', '#ff1744'];
+function createConfetti(x, y) {
+    const num = 40;
+    const icons = ['●', '■', '▲', '◆', '★', '✦'];
+    const colors = ['#ff0000', '#ffd700', '#ff6b00', '#ffcc00'];
     
     for (let i = 0; i < num; i++) {
         const conf = document.createElement('div');
@@ -1022,16 +757,14 @@ function createConfetti(x, y, intensity) {
         conf.style.left = x + 'px';
         conf.style.top = y + 'px';
         
-        const cx = (Math.random() - 0.5) * 600;
-        const cy = Math.random() * 600 + 200;
-        const cr = (Math.random() - 0.5) * 1080;
+        const cx = (Math.random() - 0.5) * 550;
+        const cy = Math.random() * 550 + 180;
         
         conf.style.setProperty('--cx', cx + 'px');
         conf.style.setProperty('--cy', cy + 'px');
-        conf.style.setProperty('--cr', cr + 'deg');
         
         document.body.appendChild(conf);
-        setTimeout(() => conf.remove(), 3000);
+        setTimeout(() => conf.remove(), 2500);
     }
 }
 
@@ -1042,8 +775,8 @@ function createScroll() {
     const scroll = document.createElement('div');
     scroll.className = 'scroll';
     
-    const x = Math.random() * (window.innerWidth - 420) + 210;
-    const y = Math.random() * (window.innerHeight - 320) + 160;
+    const x = Math.random() * (window.innerWidth - 400) + 200;
+    const y = Math.random() * (window.innerHeight - 300) + 150;
     
     scroll.style.left = x + 'px';
     scroll.style.top = y + 'px';
@@ -1054,26 +787,24 @@ function createScroll() {
                 ${blessing}
                 <div class="scroll-couplet">${couplet}</div>
             </div>
+            <div class="scroll-seal">印</div>
         </div>
     `;
     
     document.body.appendChild(scroll);
-    setTimeout(() => scroll.remove(), 4500);
+    setTimeout(() => scroll.remove(), 4200);
 }
 
-// ========== MAIN CLICK WITH ESCALATION ==========
+// ========== MAIN CLICK HANDLER ==========
 const envelope = document.getElementById('envelope');
 
 envelope.addEventListener('click', function(e) {
     updateCounter();
-    clickIntensity = Math.min(count, 10);
     
     if (!playing) {
-        music.play().then(() => {
-            fadeInMusic();
-            playing = true;
-            musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
-        }).catch(e => {});
+        music.play().catch(e => {});
+        playing = true;
+        musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
     }
     
     const rect = this.getBoundingClientRect();
@@ -1081,13 +812,12 @@ envelope.addEventListener('click', function(e) {
     const cy = rect.top + rect.height / 2;
     
     createRipple(cx, cy);
-    createLions(cx, cy, clickIntensity);
-    createMoney(cx, cy, clickIntensity);
-    createFireworks(cx, cy, clickIntensity);
-    createConfetti(cx, cy, clickIntensity);
+    createHorses(cx, cy);
+    createMoney(cx, cy);
+    createFireworks(cx, cy);
+    createConfetti(cx, cy);
     
-    // Progressive scroll spawning
-    const numScrolls = count === 1 ? 10 : Math.min(5 + Math.floor(clickIntensity / 2), 8);
+    const numScrolls = count === 1 ? 8 : 5;
     let scrollCount = 0;
     
     const interval = setInterval(() => {
@@ -1096,11 +826,8 @@ envelope.addEventListener('click', function(e) {
         if (scrollCount >= numScrolls) {
             clearInterval(interval);
         }
-    }, 260);
+    }, 270);
 });
-
-// Prevent context menu
-document.addEventListener('contextmenu', e => e.preventDefault());
 
 </script>
 
