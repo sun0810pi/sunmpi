@@ -405,7 +405,7 @@ body {
 
 <!-- Background Music -->
 
-
+<script>
 // ========== CREATE STARS ==========
 const starsContainer = document.getElementById('starsContainer');
 for (let i = 0; i < 150; i++) {
