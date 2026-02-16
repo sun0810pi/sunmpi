@@ -156,43 +156,74 @@ body {
     font-size: clamp(18px, 4.5vw, 24px);
     color: white;
     font-weight: 700;
-    margin: 25px 0;
+    margin: 25px 0 35px 0;
     text-shadow: 0 0 18px rgba(255, 215, 0, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-.start-btn {
+.start-envelope {
+    width: 140px;
+    height: 190px;
     background: linear-gradient(135deg, #d32f2f 0%, #ff0000 50%, #d32f2f 100%);
+    border: 4px solid gold;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(255, 215, 0, 0.7),
+        inset 0 0 30px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: envelopeFloat 2.5s ease-in-out infinite;
+}
+
+.start-envelope::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
     border: 3px solid gold;
-    border-radius: 50px;
-    padding: 18px 45px;
-    font-size: clamp(20px, 5vw, 28px);
+    border-radius: 8px;
+    box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.start-envelope-fu {
+    font-size: 70px;
     font-weight: 900;
     color: gold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 
-        0 8px 30px rgba(0, 0, 0, 0.4),
-        0 0 40px rgba(255, 215, 0, 0.6),
-        inset 0 0 25px rgba(255, 215, 0, 0.2);
-    text-shadow: 0 0 18px rgba(255, 215, 0, 0.9), 2px 2px 4px rgba(0, 0, 0, 0.7);
-    animation: btnPulse 2s ease-in-out infinite;
+    text-shadow: 
+        0 0 25px rgba(255, 215, 0, 1),
+        0 0 45px rgba(255, 215, 0, 0.8),
+        3px 3px 0 rgba(139, 0, 0, 0.4);
+    z-index: 1;
+    animation: fuPulse 2s ease-in-out infinite;
 }
 
-@keyframes btnPulse {
+@keyframes envelopeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fuPulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.08); }
 }
 
-.start-btn:hover {
-    transform: scale(1.08);
+.start-envelope:hover {
+    transform: translateY(-10px) scale(1.1);
     box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.5),
-        0 0 60px rgba(255, 215, 0, 0.9),
-        inset 0 0 35px rgba(255, 255, 255, 0.3);
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(255, 215, 0, 0.9),
+        inset 0 0 40px rgba(255, 255, 255, 0.4);
 }
 
-.start-btn:active {
-    transform: scale(0.95);
+.start-envelope:active {
+    transform: translateY(-5px) scale(0.95);
 }
 
 /* ========== GAME SCREEN ========== */
@@ -540,6 +571,20 @@ body {
 }
 
 /* ========== MOBILE OPTIMIZATIONS ========== */
+@media (min-width: 900px) {
+    .item-envelope {
+        width: 62px;
+        height: 88px;
+        font-size: 36px;
+    }
+    
+    .item-scroll {
+        width: 66px;
+        height: 78px;
+        font-size: 32px;
+    }
+}
+
 @media (max-width: 768px) {
     .hud {
         top: 10px;
@@ -601,14 +646,14 @@ body {
 <!-- SCREEN 1: INTRO -->
 <div class="screen active" id="introScreen">
     <div class="intro-container">
-        <div class="title">🧧 Nhặt Lì Xì Tết 🧧</div>
+        <div class="title">Chúc Mừng Năm Mới</div>
         <div class="intro-text">
             Lì xì và chiếu chỉ sẽ rơi xuống!<br>
             Nhấn vào để nhận lời chúc năm mới 🎊
         </div>
-        <button class="start-btn" onclick="startGame()">
-            🎮 Bắt Đầu
-        </button>
+        <div class="start-envelope" onclick="startGame()">
+            <div class="start-envelope-fu">福</div>
+        </div>
     </div>
 </div>
 
@@ -761,7 +806,40 @@ const blessings = [
     { text: "Công danh phát đạt", couplet: "Cành đào khoe sắc xuân ân cả<br>Lộc biếc rực vàng nghĩa nặng tình" },
     { text: "Xuân về ngàn lộc", couplet: "Xuân sang cội phúc sinh nhành lộc<br>Tết về cây đức trổ thêm hoa" },
     { text: "Trăm năm hạnh phúc", couplet: "Mai vàng nở rộ nghênh xuân đến<br>Phúc thọ đầy nhà đón Tết sang" },
-    { text: "Vạn sự cát tường", couplet: "Lân múa rộn ràng xuân mới đến<br>Phúc lộc đầy nhà tấn tài vinh" }
+    { text: "Vạn sự cát tường", couplet: "Lân múa rộn ràng xuân mới đến<br>Phúc lộc đầy nhà tấn tài vinh" },
+    { text: "Phát tài phát lộc", couplet: "Thiên thời hòa thuận xuân về sớm<br>Địa lợi phì nhiêu lộc đến đầy" },
+    { text: "Như ý cát tường", couplet: "Xuân đến trong nhà hương sắc mới<br>Tết về khắp phố ánh đèn hoa" },
+    { text: "Tài lộc tràn trề", couplet: "Trúc xanh thẳng ngắn xuân ân cả<br>Lân múa phi bay đạo đức tròn" },
+    { text: "Thiên hạ thái bình", couplet: "Cát tường như ý xuân hanh thông<br>Phát tài phát lộc Tết đầm ấm" },
+    { text: "Quốc thái dân an", couplet: "Đào hồng nở thắm tươi xuân mới<br>Hạc bay lượn múa cõi trần gian" },
+    { text: "Lộc tới nhà đầy", couplet: "Cành đào khoe sắc xuân ân cả<br>Lộc biếc rực vàng nghĩa nặng tình" },
+    { text: "Học hành tiến bộ", couplet: "Xuân về bút nghiên thêm hương sắc<br>Tết đến sách vở nở muôn hoa" },
+    { text: "Thi đỗ đầu bảng", couplet: "Bút sa nghiên khói vẽ xuân mới<br>Sách mở trang vàng hiện lộc thiêng" },
+    { text: "Vàng bạc đầy nhà", couplet: "Vàng về nhà đầy như nước chảy<br>Bạc tới cửa rộng tựa sông trào" },
+    { text: "Buôn may bán đắt", couplet: "Buôn bán hanh thông xuân ấm áp<br>Mua sắm như ý Tết thịnh vượng" },
+    { text: "Tiền tài dư dả", couplet: "Tiền vào túi đầy như mưa xuống<br>Tài chất kho cao tựa núi chồng" },
+    { text: "Làm ăn phát đạt", couplet: "Làm lụng siêng năng xuân phúc lộc<br>Ăn uống no đầy Tết an khang" },
+    { text: "Sống lâu trăm tuổi", couplet: "Sống lâu như núi cao vững chãi<br>Trăm tuổi như biển rộng bao la" },
+    { text: "Khỏe mạnh bền lâu", couplet: "Khỏe như voi chúa xuân tràn đầy<br>Mạnh như cọp thần Tết dồi dào" },
+    { text: "Luôn vui tươi mới", couplet: "Luôn cười tươi như xuân về sớm<br>Vui sống khỏe như lộc xuống đầy" },
+    { text: "Yêu thương sum họp", couplet: "Yêu nhau sum vầy xuân ấm áp<br>Thương gia đoàn tụ Tết an vui" },
+    { text: "Mọi điều như ý muốn", couplet: "Mọi việc hanh thông xuân tươi thắm<br>Điều chi như ý Tết rộn ràng" },
+    { text: "Cả nhà sum vầy", couplet: "Cả gia sum họp xuân về sớm<br>Nhà đầy tiếng cười Tết tươi vui" },
+    { text: "Con cháu đầy đàn", couplet: "Con ngoan cháu thảo xuân phúc lộc<br>Đầy nhà đầy cửa Tết an khang" },
+    { text: "Vợ chồng hòa thuận", couplet: "Vợ hiền chồng tốt xuân sum vầy<br>Thuận hòa êm ấm Tết an lành" },
+    { text: "Tiền nhiều của nhiều", couplet: "Tiền về như lá mùa thu rụng<br>Của đến như mưa xuân tháng ba" },
+    { text: "Nhà cao cửa rộng", couplet: "Nhà lầu cao vút xuân phúc lộc<br>Cửa rộng mở toang Tết tài lộc" },
+    { text: "Xe hơi đầy gara", couplet: "Xe sang lăn bánh xuân rộn ràng<br>Hơi xăng đầy bình Tết thịnh vượng" },
+    { text: "Kinh doanh hanh thông", couplet: "Kinh doanh thuận lợi xuân ấm áp<br>Thương mại phát đạt Tết sum vầy" },
+    { text: "Thăng chức tăng lương", couplet: "Thăng quan tiến chức xuân rạng rỡ<br>Tăng lương nhận thưởng Tết đầm ấm" },
+    { text: "Gặp nhiều may mắn", couplet: "Gặp lộc gặp tài xuân hanh thông<br>Nhiều phúc nhiều thọ Tết an khang" },
+    { text: "Điều gì cũng tốt", couplet: "Điều chi cũng tốt xuân về sớm<br>Gì cũng hanh thông Tết an vui" },
+    { text: "Luôn gặp quý nhân", couplet: "Luôn gặp quý nhân xuân phúc lộc<br>Thường có ân nhân Tết tài lộc" },
+    { text: "Công việc thuận lợi", couplet: "Công thành danh toại xuân rộn ràng<br>Việc thuận lời hay Tết sum vầy" },
+    { text: "Tình duyên viên mãn", couplet: "Tình như mật ngọt xuân ấm áp<br>Duyên như chỉ hồng Tết đầm ấm" },
+    { text: "Tài năng xuất chúng", couplet: "Tài cao vút tận mây xanh rộng<br>Năng lực phi thường núi cao vời" },
+    { text: "Học giỏi thi đỗ", couplet: "Học vấn cao siêu xuân thịnh vượng<br>Thi đậu đầu bảng Tết vinh quang" },
+    { text: "Mọi người yêu quý", couplet: "Mọi người yêu mến xuân ấm áp<br>Ai cũng quý trọng Tết an vui" }
 ];
 
 // ========== GAME STATE ==========
@@ -838,6 +916,7 @@ function spawnItem() {
     const startX = Math.random() * (window.innerWidth - 60) + 10;
     item.style.left = startX + 'px';
     item.style.top = '-80px';
+    item.style.zIndex = Math.floor(Math.random() * 20) + 40; // Depth layering
     
     const duration = isMobile ? (4 + Math.random() * 3) : (3.5 + Math.random() * 2.5);
     const rotation = (Math.random() - 0.5) * 720;
