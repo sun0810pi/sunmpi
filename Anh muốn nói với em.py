@@ -3,148 +3,179 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# ---------- BACKGROUND ----------
-st.markdown("""
+html = """
+<!DOCTYPE html>
+<html>
+<head>
+
 <style>
-body {
-    background: radial-gradient(circle at top,
-                #fff0f6,
-                #ffe6f2,
-                #ffd6ec);
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at top,#111,#000);
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* center layout */
+/* CENTER WRAP */
 .wrap{
-    height:85vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
 }
 
-/* title */
+/* TITLE */
 .title{
-    font-size:58px;
+    font-size:64px;
     font-weight:800;
-    background: linear-gradient(90deg,#ff4da6,#ff99cc);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    margin-bottom:25px;
+    color:#ff6fa8;
+    text-shadow:0 0 25px #ff3f9f;
+    margin-bottom:40px;
 }
 
-/* heart button */
-.heartbtn{
-    font-size:70px;
+/* BEATING HEART */
+.heart{
+    width:120px;
+    height:120px;
+    background:#ff2d75;
+    position:relative;
+    transform:rotate(-45deg);
+    margin:auto;
     cursor:pointer;
+
+    box-shadow:0 0 40px #ff2d75;
+
     animation:beat 1s infinite;
-    user-select:none;
 }
+
+.heart:before,
+.heart:after{
+    content:"";
+    width:120px;
+    height:120px;
+    background:#ff2d75;
+    border-radius:50%;
+    position:absolute;
+}
+
+.heart:before{ top:-60px; left:0;}
+.heart:after{ left:60px; top:0;}
 
 @keyframes beat{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.25)}
-    100%{transform:scale(1)}
+    0%{ transform:scale(1) rotate(-45deg);}
+    25%{ transform:scale(1.15) rotate(-45deg);}
+    40%{ transform:scale(1) rotate(-45deg);}
+    60%{ transform:scale(1.2) rotate(-45deg);}
+    100%{ transform:scale(1) rotate(-45deg);}
 }
 
-/* sub text */
+/* SUBTEXT */
 .sub{
+    margin-top:30px;
+    color:#ccc;
     font-size:20px;
-    margin-top:12px;
-    margin-bottom:30px;
-    color:#444;
 }
 
-/* streamlit button style */
-div.stButton > button {
-    font-size:22px;
-    padding:14px 36px;
-    border-radius:16px;
-    background: linear-gradient(135deg,#ff7eb3,#ff4da6);
-    color:white;
-    border:none;
-    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+/* POPUP STYLE */
+.popup{
+    position:absolute;
+    padding:14px 18px;
+    background:#ff8fb3;
+    border-radius:14px;
+    color:black;
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(0,0,0,.6);
+    animation:pop .25s ease;
 }
 
-div.stButton > button:hover {
-    transform:scale(1.08);
+@keyframes pop{
+    from{transform:scale(.2);opacity:0}
+    to{transform:scale(1);opacity:1}
 }
+
+/* floating hearts background */
+.bgheart{
+    position:absolute;
+    color:#ff3f9f33;
+    font-size:28px;
+    animation:float 10s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh)}
+    to{transform:translateY(-10vh)}
+}
+
 </style>
-""", unsafe_allow_html=True)
+</head>
+
+<body>
+
+<div class="wrap">
+    <div class="title">Anh muốn nói với em là...</div>
+    <div class="heart" onclick="flood()"></div>
+    <div class="sub">Bấm vào trái tim 💗</div>
+</div>
 
 
-# ---------- HEADER ----------
-st.markdown('<div class="wrap">', unsafe_allow_html=True)
-st.markdown('<div class="title">Anh muốn nói với em là...</div>', unsafe_allow_html=True)
+<script>
 
-# Heart clickable (JS side trigger)
-heart_clicked = st.button("💗", key="heart")
+/* floating background hearts */
+for(let i=0;i<25;i++){
+    let h=document.createElement("div")
+    h.className="bgheart"
+    h.innerHTML="❤"
+    h.style.left=Math.random()*100+"vw"
+    h.style.animationDuration=5+Math.random()*8+"s"
+    document.body.appendChild(h)
+}
 
-st.markdown('<div class="sub">Bấm vào trái tim hoặc nút dưới đây</div>', unsafe_allow_html=True)
 
-btn_clicked = st.button("Bấm vào đây")
+/* POPUP FLOOD */
+let msgs=[
+"Anh nhớ em 💗",
+"Anh yêu em",
+"Quay lại đi mà 🥺",
+"Anh luôn ở đây",
+"Smile đi ✨",
+"You mean everything to me",
+"Đừng buồn nữa nhé"
+]
 
-st.markdown('</div>', unsafe_allow_html=True)
+function spawn(){
+    let d=document.createElement("div")
+    d.className="popup"
 
+    d.innerHTML=msgs[Math.floor(Math.random()*msgs.length)]
 
-# ---------- POPUP ----------
-if heart_clicked or btn_clicked:
+    d.style.left=Math.random()*window.innerWidth+"px"
+    d.style.top=Math.random()*window.innerHeight+"px"
 
-    html = """
-    <html>
-    <body style="margin:0; overflow:hidden;
-                 background:radial-gradient(circle,#fff0f6,#ffd6ec);">
+    document.body.appendChild(d)
+}
 
-    <script>
+/* MAIN FLOOD */
+function flood(){
 
-    let msgs=[
-        "Anh nhớ em 💗",
-        "Anh yêu em",
-        "Đừng buồn nữa nhé",
-        "Quay lại đi mà 🥺",
-        "Anh luôn ở đây",
-        "Smile đi ✨"
-    ];
+    let count=0
 
-    function spawn(){
-        let d=document.createElement("div");
+    let spam=setInterval(()=>{
+        spawn()
+        count++
 
-        let x=Math.random()*window.innerWidth;
-        let y=Math.random()*window.innerHeight;
+        if(count>220)
+            clearInterval(spam)
 
-        d.innerHTML=msgs[Math.floor(Math.random()*msgs.length)];
+    },25)
 
-        d.style.position="absolute";
-        d.style.left=x+"px";
-        d.style.top=y+"px";
-        d.style.padding="14px 18px";
-        d.style.fontSize="18px";
-        d.style.fontWeight="600";
-        d.style.borderRadius="14px";
-        d.style.background="rgba(255,192,203,0.92)";
-        d.style.boxShadow="0 10px 24px rgba(0,0,0,0.2)";
-        d.style.animation="pop .3s ease";
+}
 
-        document.body.appendChild(d);
-    }
+</script>
+</body>
+</html>
+"""
 
-    let style=document.createElement("style");
-    style.innerHTML=`
-    @keyframes pop{
-        from{transform:scale(0);opacity:0}
-        to{transform:scale(1);opacity:1}
-    }`;
-    document.head.appendChild(style);
-
-    let c=0;
-    let flood=setInterval(()=>{
-        spawn();
-        c++;
-        if(c>160){clearInterval(flood);}
-    },35);
-
-    </script>
-    </body>
-    </html>
-    """
-
-    components.html(html, height=900)
+components.html(html, height=900)
