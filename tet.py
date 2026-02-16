@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide", page_title="🧧 Tết Bính Ngọ 2026", page_icon="🧧")
 
-# ===== NO BASE64 ENCODING - LAZY LOAD =====
+# ===== OPTIMIZED VERSION WITH GAME ELEMENTS =====
 html = """
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@ body {
     50% { background-position: 100% 50%; }
 }
 
-/* ========== CANVAS LAYER (OPTIMIZED) ========== */
+/* ========== CANVAS LAYER ========== */
 #effectsCanvas {
     position: fixed;
     top: 0;
@@ -47,7 +47,7 @@ body {
     z-index: 5;
 }
 
-/* ========== FLOATERS (REDUCED) ========== */
+/* ========== FLOATERS ========== */
 .floaters {
     position: fixed;
     width: 100%;
@@ -77,7 +77,7 @@ body {
     }
 }
 
-/* ========== LANTERNS (SIMPLIFIED) ========== */
+/* ========== LANTERNS ========== */
 .lantern {
     position: fixed;
     width: 42px;
@@ -115,19 +115,21 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 20;
+    width: 90%;
+    max-width: 600px;
 }
 
 .title {
-    font-size: clamp(42px, 10vw, 88px);
+    font-size: clamp(32px, 8vw, 72px);
     font-weight: 900;
     background: linear-gradient(90deg, #ff0000, #ffd700, #ff0000);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 45px;
+    margin-bottom: 35px;
     animation: titleShine 3.2s ease infinite;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.85));
 }
 
@@ -136,15 +138,15 @@ body {
     50% { background-position: 100% 50%; }
 }
 
-/* ========== ENVELOPE (OPTIMIZED + CINEMATIC) ========== */
+/* ========== ENVELOPE ========== */
 .envelope-wrapper {
     perspective: 1500px;
-    margin: 32px 0;
+    margin: 28px 0;
 }
 
 .envelope {
-    width: min(40vw, 210px);
-    height: min(53vw, 285px);
+    width: min(35vw, 190px);
+    height: min(46vw, 260px);
     position: relative;
     cursor: pointer;
     margin: 0 auto;
@@ -203,7 +205,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: clamp(75px, 20vw, 105px);
+    font-size: clamp(60px, 18vw, 90px);
     font-weight: 900;
     color: gold;
     text-shadow: 
@@ -218,7 +220,6 @@ body {
     50% { transform: translate(-50%, -50%) scale(1.08); }
 }
 
-/* Light burst effect */
 .light-burst {
     position: absolute;
     top: 50%;
@@ -247,40 +248,87 @@ body {
 }
 
 .subtext {
-    margin-top: 38px;
-    font-size: clamp(22px, 5vw, 28px);
+    margin-top: 32px;
+    font-size: clamp(18px, 4.5vw, 24px);
     color: white;
     font-weight: 800;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 2px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
-/* ========== COUNTER ========== */
-.counter {
+/* ========== COMBO STREAK ========== */
+.combo-display {
     position: fixed;
-    top: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 48px;
+    font-weight: 900;
+    color: gold;
+    text-shadow: 
+        0 0 30px rgba(255, 215, 0, 1),
+        0 0 50px rgba(255, 215, 0, 0.8),
+        4px 4px 0 rgba(139, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.combo-display.active {
+    animation: comboAnim 1s ease-out forwards;
+}
+
+@keyframes comboAnim {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    20% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -80%) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ========== STATS BAR ========== */
+.stats-bar {
+    position: fixed;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 500;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 90%;
+}
+
+.stat-item {
     background: rgba(211, 47, 47, 0.9);
     border: 3px solid gold;
-    border-radius: 40px;
-    padding: 12px 30px;
+    border-radius: 30px;
+    padding: 10px 22px;
     color: gold;
     font-weight: 800;
-    font-size: clamp(18px, 4vw, 21px);
-    z-index: 500;
-    box-shadow: 0 8px 30px rgba(211, 47, 47, 0.6);
+    font-size: clamp(14px, 3.5vw, 17px);
+    box-shadow: 0 6px 25px rgba(211, 47, 47, 0.6);
+    white-space: nowrap;
 }
 
-.counter-num {
-    font-size: clamp(26px, 6vw, 32px);
+.stat-num {
+    font-size: clamp(20px, 5vw, 26px);
     font-weight: 900;
+    margin: 0 5px;
 }
 
-/* ========== SCROLL POPUP (LIGHTWEIGHT) ========== */
+/* ========== SCROLL POPUP (MOBILE OPTIMIZED) ========== */
 .scroll {
     position: fixed;
-    width: min(85vw, 370px);
-    min-height: 180px;
+    width: min(82vw, 340px);
+    min-height: 160px;
     pointer-events: none;
     z-index: 999;
     animation: scrollShow 4s ease-out forwards;
@@ -288,63 +336,63 @@ body {
 
 @keyframes scrollShow {
     0% {
-        transform: translateY(50px) scale(0.5) rotate(-10deg);
+        transform: translateY(40px) scale(0.6) rotate(-8deg);
         opacity: 0;
     }
     16% {
-        transform: translateY(0) scale(1.05) rotate(2deg);
+        transform: translateY(0) scale(1) rotate(0deg);
         opacity: 1;
     }
     86% {
         opacity: 1;
     }
     100% {
-        transform: translateY(-40px) scale(0.9) rotate(-3deg);
+        transform: translateY(-30px) scale(0.9) rotate(-2deg);
         opacity: 0;
     }
 }
 
 .scroll-paper {
     background: linear-gradient(180deg, #7f0000, #b71c1c, #c62828, #d32f2f, #c62828, #b71c1c, #7f0000);
-    border: 4px solid gold;
+    border: 3px solid gold;
     border-radius: 12px;
-    padding: 26px 18px;
+    padding: 20px 16px;
     position: relative;
     box-shadow: 
-        0 22px 60px rgba(0, 0, 0, 0.7),
-        0 0 45px rgba(255, 215, 0, 0.8);
+        0 18px 50px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(255, 215, 0, 0.8);
 }
 
 .scroll-text {
     color: gold;
-    font-size: clamp(20px, 5vw, 24px);
+    font-size: clamp(18px, 4.5vw, 22px);
     font-weight: 800;
     text-align: center;
-    line-height: 1.7;
-    text-shadow: 0 0 22px rgba(255, 215, 0, 0.9), 2px 2px 5px rgba(0, 0, 0, 0.75);
+    line-height: 1.6;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 2px 2px 4px rgba(0, 0, 0, 0.75);
 }
 
 .scroll-couplet {
-    margin-top: 16px;
-    padding-top: 16px;
+    margin-top: 14px;
+    padding-top: 14px;
     border-top: 2px solid rgba(255, 215, 0, 0.6);
-    font-size: clamp(17px, 4.5vw, 20px);
+    font-size: clamp(15px, 4vw, 18px);
     font-style: italic;
-    line-height: 1.9;
+    line-height: 1.8;
 }
 
 /* ========== MUSIC BUTTON ========== */
 .music-btn {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 20px;
+    right: 20px;
     background: rgba(211, 47, 47, 0.9);
     border: 3px solid gold;
-    border-radius: 40px;
-    padding: 13px 26px;
+    border-radius: 35px;
+    padding: 12px 24px;
     color: gold;
     font-weight: 800;
-    font-size: clamp(15px, 3.5vw, 18px);
+    font-size: clamp(14px, 3.2vw, 17px);
     cursor: pointer;
     z-index: 500;
     transition: transform 0.3s ease;
@@ -363,17 +411,58 @@ body {
 /* ========== MOBILE OPTIMIZATIONS ========== */
 @media (max-width: 768px) {
     .envelope {
-        width: 160px;
-        height: 220px;
+        width: 150px;
+        height: 200px;
     }
     
     .title {
-        font-size: 36px;
-        margin-bottom: 35px;
+        font-size: 32px;
+        margin-bottom: 28px;
+        letter-spacing: 2px;
     }
     
     .subtext {
-        font-size: 20px;
+        font-size: 18px;
+        margin-top: 28px;
+    }
+    
+    .stats-bar {
+        top: 15px;
+        gap: 10px;
+    }
+    
+    .stat-item {
+        padding: 8px 18px;
+    }
+    
+    .scroll {
+        width: min(85vw, 300px);
+        min-height: 140px;
+    }
+    
+    .scroll-paper {
+        padding: 18px 14px;
+    }
+    
+    .music-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-bar {
+        gap: 8px;
+    }
+    
+    .stat-item {
+        padding: 6px 14px;
+        font-size: 13px;
+    }
+    
+    .stat-num {
+        font-size: 18px;
     }
 }
 
@@ -382,19 +471,30 @@ body {
 
 <body>
 
-<!-- Canvas for Particles (OPTIMIZED) -->
+<!-- Canvas for Particles -->
 <canvas id="effectsCanvas"></canvas>
 
-<!-- Floaters (REDUCED COUNT) -->
+<!-- Floaters -->
 <div class="floaters" id="floaters"></div>
 
 <!-- Lanterns -->
 <div id="lanterns"></div>
 
-<!-- Counter -->
-<div class="counter">
-    🎊 <span class="counter-num" id="counter">0</span> Lời Chúc 🎊
+<!-- Stats Bar -->
+<div class="stats-bar">
+    <div class="stat-item">
+        🎊 Phúc: <span class="stat-num" id="counter">0</span>
+    </div>
+    <div class="stat-item">
+        🔥 Combo: <span class="stat-num" id="combo">0</span>
+    </div>
+    <div class="stat-item">
+        ⭐ Max: <span class="stat-num" id="maxCombo">0</span>
+    </div>
 </div>
+
+<!-- Combo Display -->
+<div class="combo-display" id="comboDisplay"></div>
 
 <!-- Main Content -->
 <div class="container">
@@ -423,17 +523,17 @@ body {
 
 <script>
 
-console.log("🎊 TẾT APP - PERFORMANCE OPTIMIZED");
+console.log("🎊 TẾT APP - ULTRA OPTIMIZED");
 
 // ========== DEVICE DETECTION ==========
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-const PERF_SCALE = isMobile ? 0.4 : 1;
+const PERF_SCALE = isMobile ? 0.35 : 1;
 
 console.log(`📱 Device: ${isMobile ? 'Mobile' : 'Desktop'} | Scale: ${PERF_SCALE}`);
 
 // ========== CANVAS SETUP ==========
 const canvas = document.getElementById('effectsCanvas');
-const ctx = canvas.getContext('2d', { alpha: true });
+const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -442,7 +542,7 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// ========== PARTICLE SYSTEM (CANVAS-BASED) ==========
+// ========== PARTICLE SYSTEM ==========
 class Particle {
     constructor(x, y, type) {
         this.x = x;
@@ -459,14 +559,14 @@ class Particle {
         this.vy = Math.sin(angle) * speed - (type === 'lion' ? 2 : 1);
         this.rotation = Math.random() * Math.PI * 2;
         this.rotSpeed = (Math.random() - 0.5) * 0.2;
-        this.size = type === 'lion' ? 32 : type === 'money' ? 24 : 8;
+        this.size = type === 'lion' ? 28 : type === 'money' ? 22 : 7;
         this.color = type === 'firework' ? ['#ffd700', '#ff0000', '#ffcc00', '#ff1744'][Math.floor(Math.random() * 4)] : null;
     }
     
     update() {
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.08; // gravity
+        this.vy += 0.08;
         this.rotation += this.rotSpeed;
         this.life -= 0.012;
         return this.life > 0;
@@ -486,7 +586,7 @@ class Particle {
             ctx.fillText('💵', -this.size/2, this.size/2);
         } else if (this.type === 'firework') {
             ctx.fillStyle = this.color;
-            ctx.shadowBlur = 15;
+            ctx.shadowBlur = 12;
             ctx.shadowColor = this.color;
             ctx.beginPath();
             ctx.arc(0, 0, this.size, 0, Math.PI * 2);
@@ -518,48 +618,48 @@ function animateParticles() {
 }
 animateParticles();
 
-// ========== SPAWN EFFECTS (OPTIMIZED) ==========
+// ========== SPAWN EFFECTS ==========
 function spawnLions(x, y) {
-    const count = Math.floor(10 * PERF_SCALE);
+    const count = Math.floor(8 * PERF_SCALE);
     for (let i = 0; i < count; i++) {
         particles.push(new Particle(x, y, 'lion'));
     }
 }
 
 function spawnMoney(x, y) {
-    const count = Math.floor(12 * PERF_SCALE);
+    const count = Math.floor(10 * PERF_SCALE);
     for (let i = 0; i < count; i++) {
         particles.push(new Particle(x, y, 'money'));
     }
 }
 
 function spawnFireworks(x, y) {
-    const count = Math.floor(25 * PERF_SCALE);
+    const count = Math.floor(20 * PERF_SCALE);
     for (let i = 0; i < count; i++) {
         particles.push(new Particle(x, y, 'firework'));
     }
 }
 
 function spawnConfetti(x, y) {
-    const count = Math.floor(20 * PERF_SCALE);
+    const count = Math.floor(15 * PERF_SCALE);
     for (let i = 0; i < count; i++) {
         particles.push(new Particle(x, y, 'confetti'));
     }
 }
 
-// ========== INIT FLOATERS (REDUCED) ==========
+// ========== INIT FLOATERS ==========
 const floaters = document.getElementById('floaters');
 const icons = ['🌸', '🌺', '🏵️', '💮'];
-const floaterCount = isMobile ? 15 : 25;
+const floaterCount = isMobile ? 12 : 22;
 
 for (let i = 0; i < floaterCount; i++) {
     const el = document.createElement('div');
     el.className = 'floater';
     el.textContent = icons[Math.floor(Math.random() * icons.length)];
     el.style.left = Math.random() * 100 + '%';
-    el.style.setProperty('--dx', (Math.random() - 0.5) * 350 + 'px');
-    el.style.animationDuration = (16 + Math.random() * 16) + 's';
-    el.style.animationDelay = Math.random() * 10 + 's';
+    el.style.setProperty('--dx', (Math.random() - 0.5) * 300 + 'px');
+    el.style.animationDuration = (14 + Math.random() * 14) + 's';
+    el.style.animationDelay = Math.random() * 8 + 's';
     floaters.appendChild(el);
 }
 
@@ -583,7 +683,7 @@ for (let i = 0; i < lanternCount; i++) {
     lanternsDiv.appendChild(lan);
 }
 
-// ========== MUSIC (LAZY LOAD) ==========
+// ========== MUSIC ==========
 let playing = false;
 const music = document.getElementById('music');
 const musicBtn = document.getElementById('musicBtn');
@@ -594,7 +694,7 @@ musicBtn.onclick = () => {
         musicBtn.textContent = '🎵 Nhạc Tết (Tắt)';
         playing = false;
     } else {
-        music.load(); // Lazy load
+        music.load();
         music.play().then(() => {
             musicBtn.textContent = '🎵 Nhạc Tết (Bật)';
             playing = true;
@@ -625,16 +725,67 @@ const couplets = [
     "Trúc xanh thẳng ngắn xuân ân cả<br>Lân múa phi bay đạo đức tròn"
 ];
 
-// ========== COUNTER ==========
+// ========== GAME STATS ==========
 let count = 0;
+let combo = 0;
+let maxCombo = 0;
+let lastClickTime = 0;
+const comboTimeout = 2000; // 2 seconds to maintain combo
+
 const counter = document.getElementById('counter');
+const comboEl = document.getElementById('combo');
+const maxComboEl = document.getElementById('maxCombo');
+const comboDisplay = document.getElementById('comboDisplay');
 
 function updateCounter() {
     count++;
     counter.textContent = count;
+    
+    // Combo system
+    const now = Date.now();
+    if (now - lastClickTime < comboTimeout) {
+        combo++;
+    } else {
+        combo = 1;
+    }
+    lastClickTime = now;
+    
+    comboEl.textContent = combo;
+    
+    if (combo > maxCombo) {
+        maxCombo = combo;
+        maxComboEl.textContent = maxCombo;
+    }
+    
+    // Show combo text for milestones
+    if (combo === 5) showComboText("🔥 HOT STREAK!");
+    else if (combo === 10) showComboText("🌟 AMAZING!");
+    else if (combo === 20) showComboText("💎 LEGENDARY!");
+    else if (combo === 50) showComboText("👑 GOD MODE!");
+    else if (combo > 50 && combo % 25 === 0) showComboText(`🚀 ${combo}X COMBO!`);
 }
 
-// ========== SCROLL POPUP ==========
+function showComboText(text) {
+    comboDisplay.textContent = text;
+    comboDisplay.classList.remove('active');
+    void comboDisplay.offsetWidth; // Force reflow
+    comboDisplay.classList.add('active');
+    
+    setTimeout(() => {
+        comboDisplay.classList.remove('active');
+    }, 1000);
+}
+
+// Reset combo after timeout
+setInterval(() => {
+    const now = Date.now();
+    if (combo > 0 && now - lastClickTime > comboTimeout) {
+        combo = 0;
+        comboEl.textContent = combo;
+    }
+}, 100);
+
+// ========== SCROLL POPUP (MOBILE OPTIMIZED) ==========
 function createScroll() {
     const blessing = blessings[Math.floor(Math.random() * blessings.length)];
     const couplet = couplets[Math.floor(Math.random() * couplets.length)];
@@ -642,8 +793,16 @@ function createScroll() {
     const scroll = document.createElement('div');
     scroll.className = 'scroll';
     
-    const x = Math.random() * (window.innerWidth - 380) + 190;
-    const y = Math.random() * (window.innerHeight - 280) + 140;
+    // Mobile-friendly positioning with safe margins
+    const margin = isMobile ? 50 : 100;
+    const scrollWidth = isMobile ? Math.min(window.innerWidth * 0.85, 300) : Math.min(window.innerWidth * 0.82, 340);
+    const scrollHeight = isMobile ? 140 : 160;
+    
+    const maxX = window.innerWidth - scrollWidth - margin;
+    const maxY = window.innerHeight - scrollHeight - margin;
+    
+    const x = Math.max(margin, Math.min(maxX, Math.random() * (window.innerWidth - scrollWidth)));
+    const y = Math.max(margin, Math.min(maxY, Math.random() * (window.innerHeight - scrollHeight)));
     
     scroll.style.left = x + 'px';
     scroll.style.top = y + 'px';
@@ -661,16 +820,16 @@ function createScroll() {
     setTimeout(() => scroll.remove(), 4000);
 }
 
-// ========== CINEMATIC ENVELOPE OPENING ==========
+// ========== ENVELOPE INTERACTION ==========
 const envelope = document.getElementById('envelope');
 const lightBurst = document.getElementById('lightBurst');
 
 envelope.addEventListener('click', function(e) {
     updateCounter();
     
-    // Haptic feedback (mobile)
+    // Haptic feedback
     if (navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(combo > 5 ? [30, 10, 30] : 40);
     }
     
     // Cinematic opening
@@ -682,8 +841,8 @@ envelope.addEventListener('click', function(e) {
         lightBurst.classList.remove('active');
     }, 1700);
     
-    // Auto-play music
-    if (!playing) {
+    // Auto-play music on first click
+    if (!playing && count === 1) {
         music.load();
         music.play().then(() => {
             playing = true;
@@ -696,26 +855,29 @@ envelope.addEventListener('click', function(e) {
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
     
-    // Spawn canvas particles
+    // Spawn particles (more for combos)
+    const multiplier = Math.min(combo / 5 + 1, 2.5);
     spawnLions(cx, cy);
     spawnMoney(cx, cy);
     spawnFireworks(cx, cy);
-    spawnConfetti(cx, cy);
+    if (combo > 3) spawnConfetti(cx, cy);
     
-    // Create scrolls (reduced for mobile)
-    const numScrolls = isMobile ? (count === 1 ? 4 : 3) : (count === 1 ? 7 : 5);
+    // Create scrolls (scale with combo but cap for performance)
+    const baseScrolls = isMobile ? (count === 1 ? 3 : 2) : (count === 1 ? 5 : 3);
+    const comboBonus = Math.floor(combo / 5);
+    const numScrolls = Math.min(baseScrolls + comboBonus, isMobile ? 5 : 8);
+    
     let scrollCount = 0;
-    
     const interval = setInterval(() => {
         createScroll();
         scrollCount++;
         if (scrollCount >= numScrolls) {
             clearInterval(interval);
         }
-    }, 280);
+    }, isMobile ? 320 : 260);
 });
 
-console.log("✅ APP READY - OPTIMIZED FOR PERFORMANCE");
+console.log("✅ APP READY - GAME MODE ENABLED");
 
 </script>
 
