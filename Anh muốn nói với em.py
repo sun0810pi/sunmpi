@@ -4,28 +4,12 @@ import base64
 
 st.set_page_config(layout="wide", page_title="❤️ Confession", page_icon="❤️")
 
-# ===== FUNCTION =====
-def autoplay_audio(file_path):
-    with open(file_path, "rb") as f:
-        data = f.read()
-        b64 = base64.b64encode(data).decode()
+# ===== ĐỌC VÀ ENCODE NHẠC TRƯỚC =====
+with open("beautiful.mp3", "rb") as f:
+    audio_data = f.read()
+    music_base64 = base64.b64encode(audio_data).decode()
 
-    audio_html = f"""
-    <audio id="bgMusic" autoplay loop>
-        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-    </audio>
-
-    <script>
-    const audio = document.getElementById("bgMusic");
-
-    document.body.addEventListener('click', () => {{
-        audio.muted = false;
-        audio.play();
-    }});
-    </script>
-    """
-
-    components.html(audio_html, height=0)
+# ===== HTML CODE =====
 html = """
 <!DOCTYPE html>
 <html>
@@ -413,9 +397,8 @@ body {
 </div>
 
 <!-- Background Music -->
-
-<audio id="bgMusic" autoplay muted loop>
-    <source src="data:audio/mp3;base64,""" + music_base64 + """ type="audio/mp3">
+<audio id="bgMusic" autoplay loop>
+    <source src="data:audio/mp3;base64,""" + music_base64 + """" type="audio/mp3">
 </audio>
 
 <script>
@@ -456,24 +439,23 @@ function toggleMusic() {
         musicControl.innerHTML = '🎵 Music OFF';
         musicPlaying = false;
     } else {
-
-        bgMusic.muted = false;   // ⭐ QUAN TRỌNG
-        bgMusic.play();
-
+        bgMusic.muted = false;
+        bgMusic.play().catch(e => console.log('Play blocked:', e));
         musicControl.innerHTML = '🎵 Music ON';
         musicPlaying = true;
     }
 }
 
 // Try to autoplay music (may be blocked by browser)
-setTimeout(() => {
-    bgMusic.play().then(() => {
-        musicPlaying = true;
-        musicControl.innerHTML = '🎵 Music ON';
-    }).catch(e => {
-        console.log('Autoplay blocked');
-    });
-}, 1000);
+document.body.addEventListener('click', function startMusic() {
+    if (!musicPlaying) {
+        bgMusic.muted = false;
+        bgMusic.play().then(() => {
+            musicPlaying = true;
+            musicControl.innerHTML = '🎵 Music ON';
+        }).catch(e => console.log('Autoplay blocked'));
+    }
+}, { once: true });
 
 // ========== MESSAGES ARRAY ==========
 const messages = [
@@ -592,6 +574,5 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </html>
 """
 
-autoplay_audio("beautiful.mp3")
-
+# ===== RENDER =====
 components.html(html, height=900, scrolling=False)
