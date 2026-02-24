@@ -290,7 +290,7 @@ body {
         0 8px 30px rgba(255, 20, 147, 0.5),
         inset 0 0 15px rgba(255, 255, 255, 0.25);
     
-    animation: popupFade 5s ease-out forwards;
+    animation: popupFade 3.5s ease-out forwards;
     
     /* Better text wrapping */
     word-wrap: break-word;
@@ -622,7 +622,7 @@ function createPopup() {
     
     document.body.appendChild(popup);
     
-    setTimeout(() => popup.remove(), 5000);
+    setTimeout(() => popup.remove(), 3500);
 }
 
 // ========== MAIN HEART CLICK HANDLER (OPTIMIZED) ==========
